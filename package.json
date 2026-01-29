@@ -1,0 +1,24 @@
+{
+  "name": "silentswap-payroll",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Solana dApp for private payroll and bulk payouts using SilentSwap. Enables private payment processing for contributors, employees, or partners without broadcasting full payment history on-chain. Built for Privacy Hackathon 2026 - SilentSwap track.",
+  "scripts": {
+    "build": "anchor build",
+    "deploy": "anchor deploy",
+    "test": "anchor test"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@solana/web3.js": "^1.95.8"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.0.0",
+    "chai": "^4.5.0",
+    "mocha": "^10.8.2",
+    "ts-mocha": "^10.1.0",
+    "typescript": "^5.0.0"
+  }
+}
