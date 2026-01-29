@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { WalletModal } from "@solana/wallet-adapter-react-ui";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useUserAddress } from "@/hooks/useUserAddress";
 import { PayrollForm } from "./PayrollForm";
 import { PayrollHistory } from "./PayrollHistory";
 
 export function PayrollDashboard() {
-  const { publicKey, disconnect: disconnectSolana } = useWallet();
-  const { openWalletModal } = useWalletModal();
+  const { publicKey, disconnect: disconnectSolana, connect: connectSolana, wallet, select } = useWallet();
+  const { setVisible, visible } = useWalletModal();
   const { isConnected: isEvmConnected, address: evmAddress } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
@@ -27,8 +27,32 @@ export function PayrollDashboard() {
     }
   };
 
+  const handleConnectSolana = async () => {
+    try {
+      // Use the wallet modal to open the connection dialog
+      if (setVisible) {
+        setVisible(true);
+      } else {
+        // Fallback: Try direct connection if modal is not available
+        if (connectSolana) {
+          await connectSolana();
+        } else if (wallet?.adapter && !publicKey) {
+          await wallet.adapter.connect();
+        } else {
+          alert("Please install a Solana wallet extension (Phantom recommended)");
+        }
+      }
+    } catch (error) {
+      console.error("Error connecting Solana wallet:", error);
+      alert("Failed to connect Solana wallet. Please try again.");
+    }
+  };
+
   return (
     <div className="space-y-8">
+      {/* Wallet Modal - Required for useWalletModal to work */}
+      <WalletModal />
+      
       {/* Wallet Connection Status */}
       <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
         <h2 className="text-xl font-semibold mb-4">Wallet Connections</h2>
@@ -55,7 +79,7 @@ export function PayrollDashboard() {
                 </>
               ) : (
                 <button
-                  onClick={openWalletModal}
+                  onClick={handleConnectSolana}
                   className="flex-1 px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold"
                 >
                   Connect Solana Wallet
