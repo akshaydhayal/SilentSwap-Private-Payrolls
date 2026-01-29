@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { mainnet, avalanche } from "wagmi/chains";
 import { injected } from "@wagmi/connectors";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { WalletModalProvider, WalletModal } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { useAccount, useWalletClient } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -28,7 +28,7 @@ const wagmiConfig = createConfig({
   },
 });
 
-const SilentSwapWrapper = ({ children }: { children: React.ReactNode }) => {
+const SilentSwapWrapper = React.memo(({ children }: { children: React.ReactNode }) => {
   const { isConnected, connector } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { evmAddress, solAddress } = useUserAddress();
@@ -58,14 +58,30 @@ const SilentSwapWrapper = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
+  // Get environment - must be called unconditionally (before any early returns)
+  const environment = React.useMemo(() => {
+    if (!silentSwapModule) {
+      return null;
+    }
+    const { ENVIRONMENT } = silentSwapModule;
+    return (process.env.NEXT_PUBLIC_SILENTSWAP_ENV as any) || ENVIRONMENT.STAGING;
+  }, [silentSwapModule]);
+
+  // Create client - must be called unconditionally (before any early returns)
+  const client = React.useMemo(() => {
+    if (!silentSwapModule || !environment) {
+      return null;
+    }
+    const { createSilentSwapClient } = silentSwapModule;
+    return createSilentSwapClient({ environment });
+  }, [silentSwapModule, environment]);
+
   // Show children without SilentSwapProvider if not loaded yet or on server
-  if (isLoading || !silentSwapModule || typeof window === 'undefined') {
+  if (isLoading || !silentSwapModule || !client || typeof window === 'undefined') {
     return <>{children}</>;
   }
 
-  const { SilentSwapProvider, createSilentSwapClient, ENVIRONMENT } = silentSwapModule;
-  const environment = (process.env.NEXT_PUBLIC_SILENTSWAP_ENV as any) || ENVIRONMENT.STAGING;
-  const client = createSilentSwapClient({ environment });
+  const { SilentSwapProvider } = silentSwapModule;
 
   // Get Solana adapter from wallet
   const solanaConnector = wallet?.adapter || undefined;
@@ -87,7 +103,9 @@ const SilentSwapWrapper = ({ children }: { children: React.ReactNode }) => {
       {children}
     </SilentSwapProvider>
   );
-};
+});
+
+SilentSwapWrapper.displayName = 'SilentSwapWrapper';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const wallets = [
@@ -103,7 +121,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
         >
           <WalletProvider wallets={wallets} autoConnect>
             <WalletModalProvider>
-              <SilentSwapWrapper>{children}</SilentSwapWrapper>
+              <SilentSwapWrapper>
+                {children}
+                {/* Wallet Modal rendered once at app level */}
+                <WalletModal />
+              </SilentSwapWrapper>
             </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>

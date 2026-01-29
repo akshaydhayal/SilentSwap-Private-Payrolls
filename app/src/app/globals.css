@@ -18,3 +18,200 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Wallet Modal - Ensure it appears as a fixed overlay and is hidden by default */
+.wallet-adapter-modal-wrapper {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.wallet-adapter-modal-wrapper[aria-hidden="true"],
+.wallet-adapter-modal-wrapper:not([aria-hidden="false"]) {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+.wallet-adapter-modal-wrapper[aria-hidden="false"] {
+  display: flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+/* Modal overlay background - hidden by default */
+.wallet-adapter-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(4px) !important;
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+.wallet-adapter-modal-overlay[aria-hidden="true"],
+.wallet-adapter-modal-overlay:not([aria-hidden="false"]) {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+.wallet-adapter-modal-overlay[aria-hidden="false"] {
+  display: block !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+/* Modal content container */
+.wallet-adapter-modal {
+  position: relative !important;
+  z-index: 10000 !important;
+  max-width: 400px !important;
+  width: 90% !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  margin: auto !important;
+  pointer-events: auto !important;
+  background: #1a1a1a !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+}
+
+/* Ensure modal container is centered within wrapper */
+.wallet-adapter-modal-wrapper > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Additional modal positioning fixes - only when visible */
+.wallet-adapter-modal-container[aria-hidden="false"],
+.wallet-adapter-modal-wrapper[aria-hidden="false"] .wallet-adapter-modal-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+}
+
+.wallet-adapter-modal-container[aria-hidden="true"],
+.wallet-adapter-modal-container:not([aria-hidden="false"]) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Ensure modal dialog is centered */
+.wallet-adapter-modal-dialog {
+  position: relative !important;
+  z-index: 10000 !important;
+  margin: auto !important;
+}
+
+/* Ensure body scroll works and no blur when modal is hidden */
+html, body {
+  height: 100%;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  position: relative;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Ensure main content and all page elements are never blurred */
+main,
+body > *:not(.wallet-adapter-modal-wrapper):not(.wallet-adapter-modal-overlay),
+#__next,
+#root {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Only apply backdrop-filter to the modal overlay when visible */
+.wallet-adapter-modal-overlay[aria-hidden="false"] {
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* Ensure main content is not blocked and is interactive */
+main {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto !important;
+}
+
+/* Ensure all buttons are clickable and above modal when modal is hidden */
+button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  position: relative;
+  z-index: 100 !important;
+}
+
+/* Ensure all interactive elements are above hidden modal */
+a, input, select, textarea {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 50 !important;
+}
+
+/* Prevent any invisible overlays from blocking - but be more specific */
+.wallet-adapter-modal-wrapper[aria-hidden="true"],
+.wallet-adapter-modal-wrapper:not([aria-hidden="false"]),
+.wallet-adapter-modal-overlay[aria-hidden="true"],
+.wallet-adapter-modal-overlay:not([aria-hidden="false"]) {
+  pointer-events: none !important;
+}
+
+/* Only allow pointer events when modal is actually visible */
+.wallet-adapter-modal-wrapper[aria-hidden="false"],
+.wallet-adapter-modal-overlay[aria-hidden="false"] {
+  pointer-events: auto !important;
+}
+
+/* Critical: When modal is hidden, disable ALL pointer events on it and all children */
+.wallet-adapter-modal-wrapper[aria-hidden="true"] *,
+.wallet-adapter-modal-wrapper:not([aria-hidden="false"]) *,
+.wallet-adapter-modal-overlay[aria-hidden="true"] *,
+.wallet-adapter-modal-overlay:not([aria-hidden="false"]) * {
+  pointer-events: none !important;
+}
+
+/* Ensure page content containers are interactive */
+body, html, main, section, article, header, footer, aside, nav {
+  pointer-events: auto !important;
+}
+
+/* Ensure all divs are interactive EXCEPT modal elements */
+div:not(.wallet-adapter-modal-wrapper):not(.wallet-adapter-modal-overlay):not(.wallet-adapter-modal):not(.wallet-adapter-modal-container) {
+  pointer-events: auto !important;
+}

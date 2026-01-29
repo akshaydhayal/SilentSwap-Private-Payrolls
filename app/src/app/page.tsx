@@ -14,7 +14,7 @@ const PayrollDashboard = dynamic(() => import("@/components/PayrollDashboard").t
 
 export default function Home() {
   return (
-    <main className="min-h-screen p-8">
+    <main className="min-h-screen p-8 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-2">SilentSwap Payroll</h1>
