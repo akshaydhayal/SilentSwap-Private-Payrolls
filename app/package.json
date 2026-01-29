@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^2.1.3",
     "@silentswap/react": "^0.0.57",
     "@silentswap/sdk": "^0.0.57",
     "@solana/wallet-adapter-base": "^0.9.23",
@@ -18,6 +17,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.95.2",
     "@tanstack/react-query": "^5.56.2",
+    "@wagmi/connectors": "^6.2.0",
     "next": "14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

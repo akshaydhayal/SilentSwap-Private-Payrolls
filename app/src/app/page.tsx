@@ -1,4 +1,16 @@
-import { PayrollDashboard } from "@/components/PayrollDashboard";
+"use client";
+
+import dynamic from "next/dynamic";
+
+// Dynamically import PayrollDashboard to avoid SSR issues with SilentSwap
+const PayrollDashboard = dynamic(() => import("@/components/PayrollDashboard").then(mod => ({ default: mod.PayrollDashboard })), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <p className="text-gray-400">Loading...</p>
+    </div>
+  ),
+});
 
 export default function Home() {
   return (

@@ -64,7 +64,8 @@ cp .env.example .env.local
 
 **Optional environment variables:**
 - `NEXT_PUBLIC_INTEGRATOR_ID`: Your SilentSwap integrator ID (optional, for tracking)
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: WalletConnect project ID (optional but recommended)
+
+**Note**: The app uses Phantom wallet for both Solana and EVM connections. No WalletConnect setup needed.
 
 📖 **See `app/ENV_SETUP_GUIDE.md` for detailed instructions on how to get each variable.**
 

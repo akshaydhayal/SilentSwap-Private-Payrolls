@@ -1,39 +1,75 @@
 "use client";
 
-import React from "react";
-import { WagmiProvider } from "wagmi";
+import React, { useEffect, useState } from "react";
+import { WagmiProvider, createConfig, http } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { mainnet, avalanche } from "wagmi/chains";
-import { SilentSwapProvider } from "@silentswap/react";
-import { createSilentSwapClient, ENVIRONMENT } from "@silentswap/sdk";
+import { injected } from "@wagmi/connectors";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { useAccount, useWalletClient } from "wagmi";
-import { useSolanaAdapter } from "@silentswap/react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useUserAddress } from "@/hooks/useUserAddress";
-import "@rainbow-me/rainbowkit/styles.css";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 const queryClient = new QueryClient();
 
-const wagmiConfig = getDefaultConfig({
-  appName: "SilentSwap Payroll",
-  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "default",
+// Create wagmi config using injected connector (Phantom's EVM support)
+// Injected connector auto-detects browser wallets like Phantom
+const wagmiConfig = createConfig({
   chains: [mainnet, avalanche],
-  ssr: true,
+  connectors: [
+    injected(),
+  ],
+  transports: {
+    [mainnet.id]: http(),
+    [avalanche.id]: http(),
+  },
 });
 
 const SilentSwapWrapper = ({ children }: { children: React.ReactNode }) => {
   const { isConnected, connector } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { evmAddress, solAddress } = useUserAddress();
-  const { solanaConnector, solanaConnectionAdapter } = useSolanaAdapter();
+  const { wallet } = useWallet();
+  const [silentSwapModule, setSilentSwapModule] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    // Dynamically import SilentSwap only on client side
+    if (typeof window !== 'undefined') {
+      Promise.all([
+        import('@silentswap/react'),
+        import('@silentswap/sdk'),
+      ]).then(([silentSwapReact, silentSwapSdk]) => {
+        setSilentSwapModule({
+          SilentSwapProvider: silentSwapReact.SilentSwapProvider,
+          createSilentSwapClient: silentSwapSdk.createSilentSwapClient,
+          ENVIRONMENT: silentSwapSdk.ENVIRONMENT,
+        });
+        setIsLoading(false);
+      }).catch((error) => {
+        console.error('Failed to load SilentSwap:', error);
+        setIsLoading(false);
+      });
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Show children without SilentSwapProvider if not loaded yet or on server
+  if (isLoading || !silentSwapModule || typeof window === 'undefined') {
+    return <>{children}</>;
+  }
+
+  const { SilentSwapProvider, createSilentSwapClient, ENVIRONMENT } = silentSwapModule;
   const environment = (process.env.NEXT_PUBLIC_SILENTSWAP_ENV as any) || ENVIRONMENT.STAGING;
   const client = createSilentSwapClient({ environment });
+
+  // Get Solana adapter from wallet
+  const solanaConnector = wallet?.adapter || undefined;
+  const solanaConnection = wallet?.adapter || undefined;
 
   return (
     <SilentSwapProvider
@@ -44,8 +80,8 @@ const SilentSwapWrapper = ({ children }: { children: React.ReactNode }) => {
       isConnected={isConnected}
       connector={connector || undefined}
       walletClient={walletClient || undefined}
-      solanaConnector={solanaConnector || undefined}
-      solanaConnection={solanaConnectionAdapter || undefined}
+      solanaConnector={solanaConnector}
+      solanaConnection={solanaConnection}
       solanaRpcUrl={process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com"}
     >
       {children}
@@ -54,7 +90,6 @@ const SilentSwapWrapper = ({ children }: { children: React.ReactNode }) => {
 };
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const network = WalletAdapterNetwork.Mainnet;
   const wallets = [
     new PhantomWalletAdapter(),
     new SolflareWalletAdapter(),
@@ -63,17 +98,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
-          <ConnectionProvider
-            endpoint={process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com"}
-          >
-            <WalletProvider wallets={wallets} autoConnect>
-              <WalletModalProvider>
-                <SilentSwapWrapper>{children}</SilentSwapWrapper>
-              </WalletModalProvider>
-            </WalletProvider>
-          </ConnectionProvider>
-        </RainbowKitProvider>
+        <ConnectionProvider
+          endpoint={process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com"}
+        >
+          <WalletProvider wallets={wallets} autoConnect>
+            <WalletModalProvider>
+              <SilentSwapWrapper>{children}</SilentSwapWrapper>
+            </WalletModalProvider>
+          </WalletProvider>
+        </ConnectionProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
