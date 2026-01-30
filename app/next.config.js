@@ -20,6 +20,42 @@ const nextConfig = {
       config.resolve.alias['@silentswap/react'] = path.resolve(__dirname, 'webpack-stubs/silentswap-react.js');
     }
     
+    // For client-side, ensure top-level await is properly supported
+    if (!isServer) {
+      // Enable top-level await
+      config.experiments = {
+        ...(config.experiments || {}),
+        topLevelAwait: true,
+      };
+      
+      // Mark SilentSwap packages to be loaded as async chunks
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          ...config.optimization.splitChunks,
+          chunks: 'all',
+          maxAsyncRequests: 30,
+          cacheGroups: {
+            ...config.optimization.splitChunks?.cacheGroups,
+            silentswap: {
+              test: /[\\/]node_modules[\\/]@silentswap[\\/]/,
+              name: 'silentswap',
+              chunks: 'async',
+              priority: 20,
+              enforce: true,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+      
+      // Increase chunk loading timeout for async chunks
+      config.output = {
+        ...config.output,
+        chunkLoadTimeout: 120000, // 120 seconds for modules with top-level await
+      };
+    }
+    
     // Fallback for Node.js modules
     config.resolve.fallback = {
       ...config.resolve.fallback,
@@ -35,15 +71,8 @@ const nextConfig = {
       assert: false,
       os: false,
       path: false,
+      buffer: false,
     };
-
-    // Handle top-level await for client-side only
-    if (!isServer) {
-      config.experiments = {
-        ...(config.experiments || {}),
-        topLevelAwait: true,
-      };
-    }
 
     // Ignore specific problematic modules (React Native async storage)
     config.plugins.push(

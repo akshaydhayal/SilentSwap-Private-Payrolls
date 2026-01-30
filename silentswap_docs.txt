@@ -1,3 +1,1141 @@
+Starting bulk payout: {evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', hasWalletClient: true, isSilentSwapReady: true, recipients: 1, …}
+PayrollForm.tsx:274 Executing swap for recipient 1: {sourceAsset: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/slip44:501', sourceAmount: '0.09', destAsset: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/slip44:501', recipientAddress: 'BfzxcdwnDYncUo1diw7BbJGKqkuNt1UEmYEQy898k2xJ', senderAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP'}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+injected.js:1  POST https://mm-sdk-analytics.api.cx.metamask.io/v1/events net::ERR_BLOCKED_BY_CLIENT
+value @ injected.js:1
+coreFetch @ index.cjs:155
+POST @ index.cjs:241
+sendFn @ index.js:97
+flush @ index.js:73
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+enqueue @ index.js:55
+track @ index.js:119
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+nf @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+init @ metamask-sdk.js:26
+rf @ metamask-sdk.js:26
+initProvider @ metaMask.js:184
+await in initProvider
+getProvider @ metaMask.js:221
+setup @ metaMask.js:33
+setup @ createConfig.js:75
+eval @ createConfig.js:40
+createStoreImpl @ vanilla.mjs:23
+createStore @ vanilla.mjs:26
+createConfig @ createConfig.js:36
+eval @ providers.tsx:19
+(app-pages-browser)/./src/app/providers.tsx @ _app-pages-browser_src_app_providers_tsx.js:28
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+fn @ webpack.js?v=1769788509235:440
+Promise.then
+eval @ next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false!:5
+(app-pages-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false! @ layout.js:17
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+__webpack_exec__ @ layout.js:54
+(anonymous) @ layout.js:55
+__webpack_require__.O @ webpack.js?v=1769788509235:155
+webpackJsonpCallback @ webpack.js?v=1769788509235:1482
+(anonymous) @ main-app.js?v=1769788509235:9Understand this error
+installHook.js:1 Sender: Failed to send batch TypeError: Failed to fetch
+    at value (injected.js:1:7305725)
+    at coreFetch (index.cjs:155:26)
+    at Object.POST (index.cjs:241:14)
+    at Sender.sendFn (index.js:97:33)
+    at Sender.flush (index.js:73:18)
+    at eval (index.js:61:14)
+overrideMethod @ installHook.js:1
+window.console.error @ app-index.js:33
+console.error @ hydration-error-info.js:63
+flush @ index.js:76
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+enqueue @ index.js:55
+track @ index.js:119
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+nf @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+init @ metamask-sdk.js:26
+rf @ metamask-sdk.js:26
+initProvider @ metaMask.js:184
+await in initProvider
+getProvider @ metaMask.js:221
+setup @ metaMask.js:33
+setup @ createConfig.js:75
+eval @ createConfig.js:40
+createStoreImpl @ vanilla.mjs:23
+createStore @ vanilla.mjs:26
+createConfig @ createConfig.js:36
+eval @ providers.tsx:19
+(app-pages-browser)/./src/app/providers.tsx @ _app-pages-browser_src_app_providers_tsx.js:28
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+fn @ webpack.js?v=1769788509235:440
+Promise.then
+eval @ next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false!:5
+(app-pages-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false! @ layout.js:17
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+__webpack_exec__ @ layout.js:54
+(anonymous) @ layout.js:55
+__webpack_require__.O @ webpack.js?v=1769788509235:155
+webpackJsonpCallback @ webpack.js?v=1769788509235:1482
+(anonymous) @ main-app.js?v=1769788509235:9Understand this error
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+useSilentQuote.js:189 sourceAmountBN BigNumber {s: 1, e: -2, c: Array(1)}
+useSilentQuote.js:191 sourceAmountInUnits 90000000 {caip19: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/slip44:501', coingeckoId: 'solana', name: 'Solana', symbol: 'SOL', decimals: 9, …}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+solana-transaction.js:32 Creating Solana transaction: {hasData: false, hasInstructions: true, instructionsCount: 2, feePayer: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', publicKey: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP'}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+solana-transaction.js:79 Got blockhash: {blockhash: 'ATVD3hDELY3kiZdWa6d722fjRJpvmi8CiYyVFJvhgmSZ', lastValidBlockHeight: '375064356'}
+solana-transaction.js:86 Converting instructions: 2
+solana-transaction.js:90 Instruction 0: {programId: '11111111111111111111111111111111', programIdLength: 32, keysCount: 2}
+solana-transaction.js:103 Key: {pubkey: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', isSigner: true, isWritable: true}
+solana-transaction.js:103 Key: {pubkey: 'F7p3dFrjRTbtRp8FRF6qHLomXbKRBzpvBLjtQcfcgmNe', isSigner: false, isWritable: true}
+solana-transaction.js:90 Instruction 1: {programId: 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr', programIdLength: 43, keysCount: 0}
+solana-transaction.js:163 Transaction message built successfully
+solana-transaction.js:169 Compiling transaction...
+solana-transaction.js:174 Transaction bytes length: 318
+solana-transaction.js:177 Requesting signature...
+solana-transaction.js:180 Transaction signed
+solana-transaction.js:185 Sending transaction via RPC...
+solana-transaction.js:195 Transaction sent: 4zFvan27bF9vgoCaHf212ymtHwpgtbVxukVTTp5fTbv3kdsDuf8wig6k7YFi4dWKdShENY1krga2UaNEvB5kRdXw
+solana-transaction.js:201 Waiting for confirmation...
+solana-transaction.js:207 Transaction confirmed
+solana-transaction.js:224 Transaction completed successfully: 4zFvan27bF9vgoCaHf212ymtHwpgtbVxukVTTp5fTbv3kdsDuf8wig6k7YFi4dWKdShENY1krga2UaNEvB5kRdXw
+useBridgeExecution.js:990 Starting relay.link bridge status monitoring: {requestId: '0x783f904532faff369dbf77bbf92caa58f91bec75d47e10ebb09db744ed6adc4c'}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+injected.js:1  POST https://mm-sdk-analytics.api.cx.metamask.io/v1/events net::ERR_BLOCKED_BY_CLIENT
+value @ injected.js:1
+coreFetch @ index.cjs:155
+POST @ index.cjs:241
+sendFn @ index.js:97
+flush @ index.js:73
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+enqueue @ index.js:55
+track @ index.js:119
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+nf @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+init @ metamask-sdk.js:26
+rf @ metamask-sdk.js:26
+initProvider @ metaMask.js:184
+await in initProvider
+getProvider @ metaMask.js:221
+setup @ metaMask.js:33
+setup @ createConfig.js:75
+eval @ createConfig.js:40
+createStoreImpl @ vanilla.mjs:23
+createStore @ vanilla.mjs:26
+createConfig @ createConfig.js:36
+eval @ providers.tsx:19
+(app-pages-browser)/./src/app/providers.tsx @ _app-pages-browser_src_app_providers_tsx.js:28
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+fn @ webpack.js?v=1769788509235:440
+Promise.then
+eval @ next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false!:5
+(app-pages-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false! @ layout.js:17
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+__webpack_exec__ @ layout.js:54
+(anonymous) @ layout.js:55
+__webpack_require__.O @ webpack.js?v=1769788509235:155
+webpackJsonpCallback @ webpack.js?v=1769788509235:1482
+(anonymous) @ main-app.js?v=1769788509235:9Understand this error
+installHook.js:1 Sender: Failed to send batch TypeError: Failed to fetch
+    at value (injected.js:1:7305725)
+    at coreFetch (index.cjs:155:26)
+    at Object.POST (index.cjs:241:14)
+    at Sender.sendFn (index.js:97:33)
+    at Sender.flush (index.js:73:18)
+    at eval (index.js:61:14)
+overrideMethod @ installHook.js:1
+window.console.error @ app-index.js:33
+console.error @ hydration-error-info.js:63
+flush @ index.js:76
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+flush @ index.js:84
+await in flush
+eval @ index.js:61
+setTimeout
+schedule @ index.js:59
+enqueue @ index.js:55
+track @ index.js:119
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+s @ metamask-sdk.js:26
+Promise.then
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+nf @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+eval @ metamask-sdk.js:26
+c @ metamask-sdk.js:26
+init @ metamask-sdk.js:26
+rf @ metamask-sdk.js:26
+initProvider @ metaMask.js:184
+await in initProvider
+getProvider @ metaMask.js:221
+setup @ metaMask.js:33
+setup @ createConfig.js:75
+eval @ createConfig.js:40
+createStoreImpl @ vanilla.mjs:23
+createStore @ vanilla.mjs:26
+createConfig @ createConfig.js:36
+eval @ providers.tsx:19
+(app-pages-browser)/./src/app/providers.tsx @ _app-pages-browser_src_app_providers_tsx.js:28
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+fn @ webpack.js?v=1769788509235:440
+Promise.then
+eval @ next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false!:5
+(app-pages-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fnode_modules%2Fnext%2Ffont%2Fgoogle%2Ftarget.css%3F%7B%5C%22path%5C%22%3A%5C%22src%2Fapp%2Flayout.tsx%5C%22%2C%5C%22import%5C%22%3A%5C%22Inter%5C%22%2C%5C%22arguments%5C%22%3A%5B%7B%5C%22subsets%5C%22%3A%5B%5C%22latin%5C%22%5D%7D%5D%2C%5C%22variableName%5C%22%3A%5C%22inter%5C%22%7D%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&modules=%7B%22request%22%3A%22%2Fhome%2Fakshay%2FwslProjects%2Fsilentswap-payroll%2Fapp%2Fsrc%2Fapp%2Fproviders.tsx%22%2C%22ids%22%3A%5B%22Providers%22%5D%7D&server=false! @ layout.js:17
+options.factory @ webpack.js?v=1769788509235:784
+__webpack_require__ @ webpack.js?v=1769788509235:37
+__webpack_exec__ @ layout.js:54
+(anonymous) @ layout.js:55
+__webpack_require__.O @ webpack.js?v=1769788509235:155
+webpackJsonpCallback @ webpack.js?v=1769788509235:1482
+(anonymous) @ main-app.js?v=1769788509235:9Understand this error
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+PayrollForm.tsx:299 Swap 1 result: {orderId: 'EooL9VciR9HaWNnRyw1H6zpRFqwxMgHtvPbiefpPh2sk', viewingAuth: '45MRJesJMvsdonPbtaeQ7qVJsbp4', depositTransaction: {…}}depositTransaction: {hash: '0x2acba1a5c4410238ad40da84a12fff29a4a3c9c478098c4c2f02e5fbd9b5235c', chainId: 43114, status: 'confirmed', confirmations: 1}orderId: "EooL9VciR9HaWNnRyw1H6zpRFqwxMgHtvPbiefpPh2sk"viewingAuth: "45MRJesJMvsdonPbtaeQ7qVJsbp4"[[Prototype]]: Object
+PayrollForm.tsx:337 Bulk payout results: [{…}]
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://mainnet.helius-rpc.com/?api-key=0f95fd89-7479-4046-8f4d-33123a60b966'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 187, solanaBalanceAssets: Array(2), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Starting bulk payout: {evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', hasWalletClient: true, isSilentSwapReady: true, recipients: 1, …}
+PayrollForm.tsx:274 Executing swap for recipient 1: {sourceAsset: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', sourceAmount: '10.6', destAsset: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', recipientAddress: 'EnhCtHtsJSqk4itNHQUzVFeYXga1ZsLHKN1QB7mfwRw2', senderAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP'}
+PayrollForm.tsx:283 [useQuoteCalculation] Solana Address Resolution: {inputAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', contextSolAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', resolvedSolanaAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP'}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://rpc.ankr.com/solana'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 185, solanaBalanceAssets: Array(0), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+installHook.js:1 ⚠️ Registry HAS Solana, but they are MISSING from balances with NO error reported. Error Component Stack
+    at PayrollForm (PayrollForm.tsx:33:69)
+    at div (<anonymous>)
+    at PayrollDashboard (PayrollDashboard.tsx:13:132)
+    at BailoutToCSR (dynamic-bailout-to-csr.js:13:11)
+    at Suspense (<anonymous>)
+    at LoadableComponent (<anonymous>)
+    at div (<anonymous>)
+    at main (<anonymous>)
+    at Home (<anonymous>)
+    at ClientPageRoot (client-page.js:14:11)
+    at InnerLayoutRouter (layout-router.js:243:11)
+    at RedirectErrorBoundary (redirect-boundary.js:74:9)
+    at RedirectBoundary (redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (not-found-boundary.js:76:9)
+    at NotFoundBoundary (not-found-boundary.js:84:11)
+    at LoadingBoundary (layout-router.js:349:11)
+    at ErrorBoundary (error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (layout-router.js:153:9)
+    at ScrollAndFocusHandler (layout-router.js:228:11)
+    at RenderFromTemplateContext (render-from-template-context.js:16:44)
+    at OuterLayoutRouter (layout-router.js:370:11)
+    at SilentSwapInnerProvider (SilentSwapContext.js:97:11)
+    at OrdersProvider (OrdersContext.js:44:11)
+    at BalancesProvider (BalancesContext.js:487:11)
+    at PricesProvider (PricesContext.js:16:11)
+    at AssetsProvider (AssetsContext.js:24:11)
+    at SilentSwapProvider (SilentSwapContext.js:306:11)
+    at SilentSwapProviderInner (providers.tsx:73:3)
+    at eval (providers.tsx:211:41)
+    at WalletModalProvider (WalletModalProvider.js:11:32)
+    at WalletProviderBase (WalletProviderBase.js:14:31)
+    at WalletProvider (WalletProvider.js:38:27)
+    at ConnectionProvider (ConnectionProvider.js:11:31)
+    at QueryClientProvider (QueryClientProvider.js:27:11)
+    at Hydrate (hydrate.js:12:13)
+    at WagmiProvider (context.js:12:13)
+    at Providers (providers.tsx:298:29)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at RedirectErrorBoundary (redirect-boundary.js:74:9)
+    at RedirectBoundary (redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (not-found-boundary.js:76:9)
+    at NotFoundBoundary (not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (ReactDevOverlay.js:87:9)
+    at HotReload (hot-reloader-client.js:321:11)
+    at Router (app-router.js:207:11)
+    at ErrorBoundaryHandler (error-boundary.js:113:9)
+    at ErrorBoundary (error-boundary.js:160:11)
+    at AppRouter (app-router.js:585:13)
+    at ServerRoot (app-index.js:112:27)
+    at Root (app-index.js:117:11)
+overrideMethod @ installHook.js:1
+eval @ PayrollForm.tsx:130
+commitHookEffectListMount @ react-dom.development.js:21102
+commitHookPassiveMountEffects @ react-dom.development.js:23154
+commitPassiveMountOnFiber @ react-dom.development.js:23259
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23334
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23267
+commitPassiveMountEffects @ react-dom.development.js:23225
+flushPassiveEffectsImpl @ react-dom.development.js:26497
+flushPassiveEffects @ react-dom.development.js:26438
+commitRootImpl @ react-dom.development.js:26337
+commitRoot @ react-dom.development.js:26077
+performSyncWorkOnRoot @ react-dom.development.js:24925
+flushSyncWorkAcrossRoots_impl @ react-dom.development.js:7758
+flushSyncWorkOnAllRoots @ react-dom.development.js:7718
+processRootScheduleInMicrotask @ react-dom.development.js:7863
+eval @ react-dom.development.js:8034Understand this warning
+useQuoteCalculation.js:368 [useQuoteCalculation] Constructed Quote Request (JSON): {
+  "signer": "0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A",
+  "viewer": "0x04a4710a52d3e3a0088524aa5bf2f13c3c196c7f44492f810e5b0386747d6624e41fcae8c76938f5b8d0105a97fb44fd4f2dbf3c707920e9828bb98eba0363ce39",
+  "outputs": [
+    {
+      "method": "SNIP",
+      "asset": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "value": "10567674",
+      "recipient": "EnhCtHtsJSqk4itNHQUzVFeYXga1ZsLHKN1QB7mfwRw2",
+      "facilitatorPublicKeys": [
+        {
+          "coinType": "*",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x046c971d4c7322e532058ff6b12fc32ff45175f7bd0575ebe737386f9c14bdae641ef13a47803e4666b01901c0614efbf804a9e514b5c22b4849ae389c0b787259"
+        },
+        {
+          "coinType": "60",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x045bf727be2de8aceae86c604bca5e99d14009d5b88953b7330942e9673f41bb1df9c438056286f806a310cc33ea8351d5524116c64c9048db8d015ce77c916279"
+        },
+        {
+          "coinType": "118",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x04302cd216fd199669b9f42cd539bae1ecac405b56f0bbb488e34e38aec5e14791f2055e5629f63bb924b26ca83584b6f1e67aca57534aa89455e734dc0f1d781e"
+        },
+        {
+          "coinType": "529",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x0470c5441de210fb4b94628f98cf2770fc8b65130ba4965ebc49188373c62dafb645c3ef77f36533d122724b593741d74feaea71bb1ef89680593f8ec576e37004"
+        }
+      ],
+      "extra": ""
+    }
+  ]
+}
+useQuoteFetching.js:41 [useQuoteFetching] Sending quote request (JSON): {
+  "signer": "0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A",
+  "viewer": "0x04a4710a52d3e3a0088524aa5bf2f13c3c196c7f44492f810e5b0386747d6624e41fcae8c76938f5b8d0105a97fb44fd4f2dbf3c707920e9828bb98eba0363ce39",
+  "outputs": [
+    {
+      "method": "SNIP",
+      "asset": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "value": "10567674",
+      "recipient": "EnhCtHtsJSqk4itNHQUzVFeYXga1ZsLHKN1QB7mfwRw2",
+      "facilitatorPublicKeys": [
+        {
+          "coinType": "*",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x046c971d4c7322e532058ff6b12fc32ff45175f7bd0575ebe737386f9c14bdae641ef13a47803e4666b01901c0614efbf804a9e514b5c22b4849ae389c0b787259"
+        },
+        {
+          "coinType": "60",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x045bf727be2de8aceae86c604bca5e99d14009d5b88953b7330942e9673f41bb1df9c438056286f806a310cc33ea8351d5524116c64c9048db8d015ce77c916279"
+        },
+        {
+          "coinType": "118",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x04302cd216fd199669b9f42cd539bae1ecac405b56f0bbb488e34e38aec5e14791f2055e5629f63bb924b26ca83584b6f1e67aca57534aa89455e734dc0f1d781e"
+        },
+        {
+          "coinType": "529",
+          "keyType": "SECP256K1",
+          "publicKeyBytes": "0x0470c5441de210fb4b94628f98cf2770fc8b65130ba4965ebc49188373c62dafb645c3ef77f36533d122724b593741d74feaea71bb1ef89680593f8ec576e37004"
+        }
+      ],
+      "extra": ""
+    }
+  ]
+}
+PayrollForm.tsx:107 SilentSwap Deep Diagnostics
+PayrollForm.tsx:108 Context Status: {isSilentSwapReady: true, balancesLoading: false, solAddress: '91zG24w4tj6gqC2QxJwBEufrhL9G4S5NUmQGhgkGwLuP', evmAddress: '0xaFd7BB38bAB79E85676A5bDB60A143D809e3CB0A', solanaRpcUrl: 'https://rpc.ankr.com/solana'}
+PayrollForm.tsx:115 Asset Summary: {totalBalanceAssets: 185, solanaBalanceAssets: Array(0), totalRegistryAssets: 286, solanaRegistryAssets: Array(21), isSolanaAssetTest: true}
+PayrollForm.tsx:122 Registry Sample: (5) ['eip155:1/slip44:60', 'eip155:1868/slip44:60', 'eip155:130/slip44:60', 'eip155:2741/slip44:60', 'eip155:10/slip44:60']
+PayrollForm.tsx:123 Balance Errors: {}
+installHook.js:1 ⚠️ Registry HAS Solana, but they are MISSING from balances with NO error reported. Error Component Stack
+    at PayrollForm (PayrollForm.tsx:33:69)
+    at div (<anonymous>)
+    at PayrollDashboard (PayrollDashboard.tsx:13:132)
+    at BailoutToCSR (dynamic-bailout-to-csr.js:13:11)
+    at Suspense (<anonymous>)
+    at LoadableComponent (<anonymous>)
+    at div (<anonymous>)
+    at main (<anonymous>)
+    at Home (<anonymous>)
+    at ClientPageRoot (client-page.js:14:11)
+    at InnerLayoutRouter (layout-router.js:243:11)
+    at RedirectErrorBoundary (redirect-boundary.js:74:9)
+    at RedirectBoundary (redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (not-found-boundary.js:76:9)
+    at NotFoundBoundary (not-found-boundary.js:84:11)
+    at LoadingBoundary (layout-router.js:349:11)
+    at ErrorBoundary (error-boundary.js:160:11)
+    at InnerScrollAndFocusHandler (layout-router.js:153:9)
+    at ScrollAndFocusHandler (layout-router.js:228:11)
+    at RenderFromTemplateContext (render-from-template-context.js:16:44)
+    at OuterLayoutRouter (layout-router.js:370:11)
+    at SilentSwapInnerProvider (SilentSwapContext.js:97:11)
+    at OrdersProvider (OrdersContext.js:44:11)
+    at BalancesProvider (BalancesContext.js:487:11)
+    at PricesProvider (PricesContext.js:16:11)
+    at AssetsProvider (AssetsContext.js:24:11)
+    at SilentSwapProvider (SilentSwapContext.js:306:11)
+    at SilentSwapProviderInner (providers.tsx:73:3)
+    at eval (providers.tsx:211:41)
+    at WalletModalProvider (WalletModalProvider.js:11:32)
+    at WalletProviderBase (WalletProviderBase.js:14:31)
+    at WalletProvider (WalletProvider.js:38:27)
+    at ConnectionProvider (ConnectionProvider.js:11:31)
+    at QueryClientProvider (QueryClientProvider.js:27:11)
+    at Hydrate (hydrate.js:12:13)
+    at WagmiProvider (context.js:12:13)
+    at Providers (providers.tsx:298:29)
+    at body (<anonymous>)
+    at html (<anonymous>)
+    at RootLayout [Server] (<anonymous>)
+    at RedirectErrorBoundary (redirect-boundary.js:74:9)
+    at RedirectBoundary (redirect-boundary.js:82:11)
+    at NotFoundErrorBoundary (not-found-boundary.js:76:9)
+    at NotFoundBoundary (not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (ReactDevOverlay.js:87:9)
+    at HotReload (hot-reloader-client.js:321:11)
+    at Router (app-router.js:207:11)
+    at ErrorBoundaryHandler (error-boundary.js:113:9)
+    at ErrorBoundary (error-boundary.js:160:11)
+    at AppRouter (app-router.js:585:13)
+    at ServerRoot (app-index.js:112:27)
+    at Root (app-index.js:117:11)
+overrideMethod @ installHook.js:1
+eval @ PayrollForm.tsx:130
+commitHookEffectListMount @ react-dom.development.js:21102
+commitHookPassiveMountEffects @ react-dom.development.js:23154
+commitPassiveMountOnFiber @ react-dom.development.js:23259
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23334
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23256
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23370
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:23237
+commitPassiveMountOnFiber @ react-dom.development.js:23267
+commitPassiveMountEffects @ react-dom.development.js:23225
+flushPassiveEffectsImpl @ react-dom.development.js:26497
+flushPassiveEffects @ react-dom.development.js:26438
+eval @ react-dom.development.js:26172
+workLoop @ scheduler.development.js:256
+flushWork @ scheduler.development.js:225
+performWorkUntilDeadline @ scheduler.development.js:534Understand this warning
+injected.js:1  POST https://api.silentswap.com/quote 400 (Bad Request)
+value @ injected.js:1
+#post @ client.js:79
+quote @ client.js:183
+eval @ useQuoteFetching.js:42
+eval @ useSilentQuote.js:90
+eval @ useQuoteCalculation.js:369
+await in eval
+eval @ useSilentQuote.js:175
+handleBulkPayout @ PayrollForm.tsx:283
+callCallback @ react-dom.development.js:20565
+invokeGuardedCallbackImpl @ react-dom.development.js:20614
+invokeGuardedCallback @ react-dom.development.js:20689
+invokeGuardedCallbackAndCatchFirstError @ react-dom.development.js:20703
+executeDispatch @ react-dom.development.js:32128
+processDispatchQueueItemsInOrder @ react-dom.development.js:32160
+processDispatchQueue @ react-dom.development.js:32173
+dispatchEventsForPlugins @ react-dom.development.js:32184
+eval @ react-dom.development.js:32374
+batchedUpdates$1 @ react-dom.development.js:24953
+batchedUpdates @ react-dom.development.js:28844
+dispatchEventForPluginEventSystem @ react-dom.development.js:32373
+dispatchEvent @ react-dom.development.js:30141
+dispatchDiscreteEvent @ react-dom.development.js:30112Understand this error
+installHook.js:1 [useQuoteFetching] Quote API Error Object: {type: 'BAD_REQUEST', error: '.outputs[0].extra must be an object'}
+overrideMethod @ installHook.js:1
+window.console.error @ app-index.js:33
+console.error @ hydration-error-info.js:63
+eval @ useQuoteFetching.js:44
+await in eval
+eval @ useSilentQuote.js:90
+eval @ useQuoteCalculation.js:369
+await in eval
+eval @ useSilentQuote.js:175
+handleBulkPayout @ PayrollForm.tsx:283
+callCallback @ react-dom.development.js:20565
+invokeGuardedCallbackImpl @ react-dom.development.js:20614
+invokeGuardedCallback @ react-dom.development.js:20689
+invokeGuardedCallbackAndCatchFirstError @ react-dom.development.js:20703
+executeDispatch @ react-dom.development.js:32128
+processDispatchQueueItemsInOrder @ react-dom.development.js:32160
+processDispatchQueue @ react-dom.development.js:32173
+dispatchEventsForPlugins @ react-dom.development.js:32184
+eval @ react-dom.development.js:32374
+batchedUpdates$1 @ react-dom.development.js:24953
+batchedUpdates @ react-dom.development.js:28844
+dispatchEventForPluginEventSystem @ react-dom.development.js:32373
+dispatchEvent @ react-dom.development.js:30141
+dispatchDiscreteEvent @ react-dom.development.js:30112Understand this error
+installHook.js:1 [useQuoteFetching] Exception: Error: Failed to get quote: .outputs[0].extra must be an object
+    at eval (useQuoteFetching.js:45:23)
+    at async eval (useSilentQuote.js:90:31)
+    at async eval (useQuoteCalculation.js:369:33)
+    at async eval (useSilentQuote.js:175:33)
+    at async handleBulkPayout (PayrollForm.tsx:283:26)
+overrideMethod @ installHook.js:1
+window.console.error @ app-index.js:33
+console.error @ hydration-error-info.js:63
+eval @ useQuoteFetching.js:53
+await in eval
+eval @ useSilentQuote.js:90
+eval @ useQuoteCalculation.js:369
+await in eval
+eval @ useSilentQuote.js:175
+handleBulkPayout @ PayrollForm.tsx:283
+callCallback @ react-dom.development.js:20565
+invokeGuardedCallbackImpl @ react-dom.development.js:20614
+invokeGuardedCallback @ react-dom.development.js:20689
+invokeGuardedCallbackAndCatchFirstError @ react-dom.development.js:20703
+executeDispatch @ react-dom.development.js:32128
+processDispatchQueueItemsInOrder @ react-dom.development.js:32160
+processDispatchQueue @ react-dom.development.js:32173
+dispatchEventsForPlugins @ react-dom.development.js:32184
+eval @ react-dom.development.js:32374
+batchedUpdates$1 @ react-dom.development.js:24953
+batchedUpdates @ react-dom.development.js:28844
+dispatchEventForPluginEventSystem @ react-dom.development.js:32373
+dispatchEvent @ react-dom.development.js:30141
+dispatchDiscreteEvent @ react-dom.development.js:30112Understand this error
+installHook.js:1 Swap execution failed: {sourceAsset: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', sourceAmount: '10.6', destinationsCount: 1, error: 'Failed to get quote', stack: 'Error: Failed to get quote\n    at eval (webpack-in…browser)/./src/components/PayrollForm.tsx:295:36)'}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ok, so i ma building a project for a solana privacy hackathon:
 This is the hackathon: 
 PRIVACY HACK

@@ -5,8 +5,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useMemo } from "react";
 
 export function useUserAddress() {
-  const { address: evmAddress } = useAccount();
-  const { publicKey: solanaPublicKey } = useWallet();
+  const { address: evmAddress, isConnected: isEvmConnected } = useAccount();
+  const { publicKey: solanaPublicKey, connected: isSolanaConnected } = useWallet();
 
   const solAddress = useMemo(() => {
     return solanaPublicKey?.toBase58() || null;
@@ -15,8 +15,8 @@ export function useUserAddress() {
   return {
     evmAddress: evmAddress || null,
     solAddress,
-    isEvmConnected: !!evmAddress,
-    isSolanaConnected: !!solAddress,
-    isBothConnected: !!evmAddress && !!solAddress,
+    isEvmConnected: isEvmConnected && !!evmAddress,
+    isSolanaConnected: isSolanaConnected && !!solAddress,
+    isBothConnected: isEvmConnected && !!evmAddress && isSolanaConnected && !!solAddress,
   };
 }
