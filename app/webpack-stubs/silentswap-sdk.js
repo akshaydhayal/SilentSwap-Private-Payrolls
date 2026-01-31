@@ -6,7 +6,7 @@
 const ENVIRONMENT = {
   STAGING: 'STAGING',
   MAINNET: 'MAINNET',
-  TESTNET: 'TESTNET',
+  TESTNET: 'TESTNET',    
 };
 
 // Client factory stub

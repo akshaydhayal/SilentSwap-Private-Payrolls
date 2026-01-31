@@ -281,6 +281,7 @@ export function PayrollForm() {
           });
 
           // Execute the swap using SilentSwap
+          // Note: solanaAddress is passed for SDK compatibility even though not in type definition
           const result = await executeSwap({
             sourceAsset: sourceAssetCaip19,
             sourceAmount: recipient.amount,
@@ -293,8 +294,9 @@ export function PayrollForm() {
             ],
             splits: [1], // 100% to single recipient
             senderContactId: `caip10:solana:*:${solAddress}`, // Sender in CAIP-10 format
+            solanaAddress: solAddress, // Added to ensure SDK finds it
             integratorId: process.env.NEXT_PUBLIC_INTEGRATOR_ID || undefined,
-          });
+          } as any);
 
           console.log(`Swap ${i + 1} result:`, result);
           results.push({ 
