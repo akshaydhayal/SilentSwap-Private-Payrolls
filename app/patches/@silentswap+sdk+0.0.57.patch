@@ -1,0 +1,68 @@
+diff --git a/node_modules/@silentswap/sdk/dist/facilitator-account.js b/node_modules/@silentswap/sdk/dist/facilitator-account.js
+index 09519e1..74508b9 100644
+--- a/node_modules/@silentswap/sdk/dist/facilitator-account.js
++++ b/node_modules/@silentswap/sdk/dist/facilitator-account.js
+@@ -3,6 +3,7 @@ import { toBase64 } from '@cosmjs/encoding';
+ import { initWasmSecp256k1 } from '@solar-republic/wasm-secp256k1';
+ import { privateKeyToAccount } from 'viem/accounts';
+ import { Secp256k1Wallet } from '@cosmjs/amino';
++import { Ed25519 } from '@cosmjs/crypto';
+ import { normalizeBytesish, normalizeJson } from './util.js';
+ import { FacilitatorKeyType } from './order.js';
+ // wasm-secp256k1 instance
+@@ -58,9 +59,11 @@ export class FacilitatorAccount {
+             case FacilitatorKeyType.SECP256K1:
+                 publicKeyBytes = SECP256K1.sk_to_pk(this.#secretKey, true);
+                 break;
+-            // case FacilitatorKeyType.ED25519:
+-            //     publicKeyBytes =
+-            //     break;
++            case FacilitatorKeyType.ED25519:
++                // Derive Ed25519 public key from the secret key
++                const keypair = Ed25519.makeKeypair(this.#secretKey);
++                publicKeyBytes = keypair.pubkey;
++                break;
+             default:
+                 throw new Error('Invalid key type');
+         }
+diff --git a/node_modules/@silentswap/sdk/dist/hd-facilitator-group.js b/node_modules/@silentswap/sdk/dist/hd-facilitator-group.js
+index b830dd0..dcd7e29 100644
+--- a/node_modules/@silentswap/sdk/dist/hd-facilitator-group.js
++++ b/node_modules/@silentswap/sdk/dist/hd-facilitator-group.js
+@@ -20,9 +20,14 @@ export class HdFacilitatorGroup {
+         if ('*' === coinType)
+             coinType = '0';
+         // derive BIP-32 node using BIP-44m for intended coin type at group's account index and given address index
+-        const path = stringToPath(`m/44'/${coinType}'/${this.accountIndex}'/0/${addressIndex}`);
+-        // derive private key
+-        const slip10Result = Slip10.derivePath(Slip10Curve.Secp256k1, this.#seed, path);
++        // For Solana (501), use hardened path with Ed25519 curve
++        const isSolana = coinType === '501';
++        const path = isSolana 
++            ? stringToPath(`m/44'/${coinType}'/${this.accountIndex}'/0'`)
++            : stringToPath(`m/44'/${coinType}'/${this.accountIndex}'/0/${addressIndex}`);
++        // derive private key - use Ed25519 for Solana, Secp256k1 for others
++        const curve = isSolana ? Slip10Curve.Ed25519 : Slip10Curve.Secp256k1;
++        const slip10Result = Slip10.derivePath(curve, this.#seed, path);
+         // create facilitator account
+         try {
+             return await new FacilitatorAccount(slip10Result.privkey);
+diff --git a/node_modules/@silentswap/sdk/dist/order.js b/node_modules/@silentswap/sdk/dist/order.js
+index 7a5942e..13ebe9d 100644
+--- a/node_modules/@silentswap/sdk/dist/order.js
++++ b/node_modules/@silentswap/sdk/dist/order.js
+@@ -29,10 +29,10 @@ export const PublicKeyArgGroups = {
+             coinType: '118',
+             keyType: FacilitatorKeyType.SECP256K1,
+         },
+-        // {
+-        //     coinType: '501',
+-        //     keyType: FacilitatorKeyType.ED25519,
+-        // },
++        {
++            coinType: '501',
++            keyType: FacilitatorKeyType.ED25519,
++        },
+         {
+             coinType: '529',
+             keyType: FacilitatorKeyType.SECP256K1,

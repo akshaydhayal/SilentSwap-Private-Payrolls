@@ -1,0 +1,42 @@
+diff --git a/node_modules/@silentswap/react/dist/hooks/silent/useQuoteCalculation.js b/node_modules/@silentswap/react/dist/hooks/silent/useQuoteCalculation.js
+index 31b2cad..ec43c4b 100644
+--- a/node_modules/@silentswap/react/dist/hooks/silent/useQuoteCalculation.js
++++ b/node_modules/@silentswap/react/dist/hooks/silent/useQuoteCalculation.js
+@@ -12,7 +12,7 @@ import { BigNumber } from 'bignumber.js';
+  * - Quote request construction and fetching
+  * - Destination amount updates
+  */
+-export function useQuoteCalculation({ address, evmAddress, wallet, depositorAddress, getQuote, getPrice, setDestinations, }) {
++export function useQuoteCalculation({ address, evmAddress, solAddress, wallet, depositorAddress, getQuote, getPrice, setDestinations, }) {
+     const [loadingAmounts, setLoadingAmounts] = useState(false);
+     const [depositAmountUsdc, setDepositAmountUsdc] = useState(0);
+     const calculateQuote = useCallback(async (debouncedSourceAsset, debouncedSourceAmount, destinations, splits) => {
+@@ -65,13 +65,13 @@ export function useQuoteCalculation({ address, evmAddress, wallet, depositorAddr
+                 if (!evmAddress) {
+                     throw new Error('EVM address required for Solana swaps (needed for deposit calldata and recipient)');
+                 }
+-                const solanaAddress = typeof address === 'string' && !address.startsWith('0x') ? address : null;
+-                if (!solanaAddress) {
++                // PATCH: Use solAddress parameter directly instead of inferring from address
++                if (!solAddress) {
+                     throw new Error('Solana address required for Solana swaps');
+                 }
+                 // Use relay.link only for Solana (not deBridge)
+                 const relayQuote = await fetchRelayQuote({
+-                    user: solanaAddress, // Solana address for user parameter
++                    user: solAddress, // Solana address for user parameter
+                     originChainId: N_RELAY_CHAIN_ID_SOLANA,
+                     destinationChainId: NI_CHAIN_ID_AVALANCHE,
+                     originCurrency: originCurrency, // Base58 Solana address (system program or SPL token)
+diff --git a/node_modules/@silentswap/react/dist/hooks/silent/useSilentQuote.js b/node_modules/@silentswap/react/dist/hooks/silent/useSilentQuote.js
+index 47aadc7..e67ff4d 100644
+--- a/node_modules/@silentswap/react/dist/hooks/silent/useSilentQuote.js
++++ b/node_modules/@silentswap/react/dist/hooks/silent/useSilentQuote.js
+@@ -81,6 +81,7 @@ export function useSilentQuote({ client, address, evmAddress, solAddress, wallet
+     const { calculateQuote, loadingAmounts, depositAmountUsdc } = useQuoteCalculation({
+         address: rawAddress || '0x0000000000000000000000000000000000000000',
+         evmAddress,
++        solAddress,  // PATCH: Pass solAddress for Solana swaps
+         wallet,
+         depositorAddress,
+         getQuote,
