@@ -55,6 +55,8 @@ export function PayrollForm() {
     egressEstimatesLoading,
     wallet: silentSwapWallet,
     walletLoading,
+    auth,
+    authLoading,
   } = silentSwap || {};
 
   const [recipients, setRecipients] = useState<Recipient[]>([
@@ -258,6 +260,11 @@ export function PayrollForm() {
       isSilentSwapReady,
       recipients: validRecipients.length,
       sourceAsset,
+      // CRITICAL DIAGNOSTICS FOR WALLET ISSUE
+      hasSilentSwapWallet: !!silentSwapWallet,
+      walletLoading,
+      hasAuth: !!auth,
+      authLoading,
     });
 
     try {
