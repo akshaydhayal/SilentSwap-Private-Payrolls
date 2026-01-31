@@ -10,6 +10,7 @@
     "postinstall": "npx patch-package"
   },
   "dependencies": {
+    "@noble/curves": "^2.0.1",
     "@silentswap/react": "0.0.57",
     "@silentswap/sdk": "0.0.57",
     "@solana/wallet-adapter-base": "^0.9.23",
