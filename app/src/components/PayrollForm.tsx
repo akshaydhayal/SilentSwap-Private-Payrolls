@@ -222,6 +222,32 @@ export function PayrollForm() {
       return;
     }
 
+    // CRITICAL: Check if SilentSwap wallet is actually generated
+    // This is separate from isSilentSwapReady - the wallet requires auth + signature
+    if (!silentSwapWallet) {
+      console.error("SilentSwap wallet not ready:", {
+        hasAuth: !!auth,
+        authLoading,
+        walletLoading,
+        silentSwapWallet,
+      });
+      
+      if (!auth && !authLoading) {
+        alert(
+          "SilentSwap authentication required. Please sign the authentication message in your wallet. " +
+          "If no message appears, try refreshing the page and reconnecting your wallets."
+        );
+      } else if (walletLoading) {
+        alert("SilentSwap wallet is being generated. Please wait a moment and try again.");
+      } else {
+        alert(
+          "SilentSwap wallet not ready. Please ensure you've signed all required messages. " +
+          "Try disconnecting and reconnecting your wallets, then sign the authentication message."
+        );
+      }
+      return;
+    }
+
     if (!executeSwap) {
       alert("SilentSwap is not ready. Please ensure both wallets are properly connected and refresh the page.");
       console.error("executeSwap is not available", { silentSwap });
