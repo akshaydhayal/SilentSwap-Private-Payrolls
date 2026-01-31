@@ -122,6 +122,18 @@ function SilentSwapProviderInner({
   
   useEffect(() => {
     const createFallbackClient = async () => {
+      // Log the current state for debugging
+      console.log("Fallback walletClient check:", {
+        hasWagmiWalletClient: !!walletClient,
+        walletClientLoading,
+        isConnected,
+        hasEvmAddress: !!evmAddress,
+        hasConnector: !!connector,
+        connectorName: connector?.name,
+        hasFallback: !!fallbackWalletClient,
+      });
+      
+      // Create fallback if wagmi doesn't provide one but we're connected
       if (!walletClient && !walletClientLoading && isConnected && evmAddress && typeof window !== 'undefined') {
         try {
           let ethereum = (window as any).ethereum;
@@ -154,17 +166,21 @@ function SilentSwapProviderInner({
             
             console.log("✓ Fallback walletClient created successfully", { chain: chain.name });
             setFallbackWalletClient(client);
+          } else {
+            console.warn("No ethereum provider found for fallback walletClient");
           }
         } catch (error) {
           console.error("Failed to create fallback walletClient:", error);
         }
-      } else if (walletClient) {
+      } else if (walletClient && fallbackWalletClient) {
+        // Clear fallback if wagmi now provides one
+        console.log("Clearing fallback walletClient - wagmi now provides one");
         setFallbackWalletClient(null);
       }
     };
     
     createFallbackClient();
-  }, [walletClient, walletClientLoading, isConnected, evmAddress]);
+  }, [walletClient, walletClientLoading, isConnected, evmAddress, connector, fallbackWalletClient]);
   
   const effectiveWalletClient = walletClient || fallbackWalletClient;
 
@@ -204,6 +220,25 @@ function SilentSwapProviderInner({
   }, [isConnected, solanaConnected, solAddress, solanaConnector, 
       fallbackSolanaConnector, solanaConnectionAdapter, fallbackSolanaConnection, solanaRpcUrl, environment, ENVIRONMENT,
       client, evmAddress, walletClient, fallbackWalletClient, effectiveWalletClient, connector, walletClientLoading, walletClientError]);
+
+  // CRITICAL FIX: Don't render SilentSwapProvider until walletClient is ready
+  // This avoids the race condition where auth skips because walletClient is undefined
+  // We only wait when EVM is connected - if not connected, we still render the provider
+  // so the UI can prompt the user to connect
+  const isWalletClientReady = !isConnected || !!effectiveWalletClient || walletClientLoading;
+  
+  if (isConnected && !effectiveWalletClient && !walletClientLoading) {
+    // EVM is connected but walletClient not ready yet and not loading - wait for fallback creation
+    console.log("Waiting for walletClient to be ready before mounting SilentSwapProvider...");
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+          <p>Initializing wallet connection...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <SilentSwapProvider
