@@ -184,9 +184,26 @@ function SilentSwapProviderInner({
         hasSolanaConnection: !!(solanaConnectionAdapter || fallbackSolanaConnection),
         solanaRpcUrl,
       });
+      
+      // CRITICAL AUTH DEBUG: Log all prerequisites for auth
+      console.log("SilentSwap Auth Prerequisites:", {
+        hasClient: !!client,
+        clientType: client ? typeof client : 'null',
+        evmAddress,
+        hasEvmAddress: !!evmAddress,
+        hasWalletClient: !!walletClient,
+        hasFallbackWalletClient: !!fallbackWalletClient,
+        hasEffectiveWalletClient: !!effectiveWalletClient,
+        hasConnector: !!connector,
+        connectorName: connector?.name,
+        isConnected,
+        walletClientLoading,
+        walletClientError,
+      });
     }
   }, [isConnected, solanaConnected, solAddress, solanaConnector, 
-      fallbackSolanaConnector, solanaConnectionAdapter, fallbackSolanaConnection, solanaRpcUrl, environment, ENVIRONMENT]);
+      fallbackSolanaConnector, solanaConnectionAdapter, fallbackSolanaConnection, solanaRpcUrl, environment, ENVIRONMENT,
+      client, evmAddress, walletClient, fallbackWalletClient, effectiveWalletClient, connector, walletClientLoading, walletClientError]);
 
   return (
     <SilentSwapProvider
