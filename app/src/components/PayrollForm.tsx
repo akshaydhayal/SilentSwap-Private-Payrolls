@@ -71,8 +71,9 @@ export function PayrollForm() {
 
   // Sync global token state for Solana payouts
   useEffect(() => {
-    if (isSilentSwapReady && sourceAsset.includes('solana') && registryAssets.length > 0) {
-      const asset = registryAssets.find(a => a.caip19 === sourceAsset);
+    const registryAssetsArray = Object.values(registryAssets);
+    if (isSilentSwapReady && sourceAsset.includes('solana') && registryAssetsArray.length > 0) {
+      const asset = registryAssetsArray.find(a => a.caip19 === sourceAsset);
       if (asset) {
         console.log(`[PayrollForm] Syncing global tokenIn to: ${sourceAsset}`);
         setTokenIn(asset);
@@ -292,7 +293,6 @@ export function PayrollForm() {
             ],
             splits: [1], // 100% to single recipient
             senderContactId: `caip10:solana:*:${solAddress}`, // Sender in CAIP-10 format
-            solanaAddress: solAddress, // Added to ensure SDK finds it
             integratorId: process.env.NEXT_PUBLIC_INTEGRATOR_ID || undefined,
           });
 
