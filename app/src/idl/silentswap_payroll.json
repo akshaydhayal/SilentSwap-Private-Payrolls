@@ -1,5 +1,5 @@
 {
-  "address": "3QGaDwAq68PnJZvVDkM32ejP8e3GNRCLNqm6vRYhRDFW",
+  "address": "DowzTqkaMpVVeduM94rWgSereqprcZ5QfgrSaMqUxWQK",
   "metadata": {
     "name": "silentswap_payroll",
     "version": "0.1.0",
@@ -241,6 +241,10 @@
       "args": [
         {
           "name": "silentswap_order_id",
+          "type": "string"
+        },
+        {
+          "name": "transaction_hash",
           "type": "string"
         }
       ]
@@ -756,6 +760,11 @@
       "code": 6003,
       "name": "InvalidPaymentStatus",
       "msg": "Invalid payment status for this operation"
+    },
+    {
+      "code": 6004,
+      "name": "TxHashTooLong",
+      "msg": "Transaction hash exceeds maximum length"
     }
   ],
   "types": [
@@ -850,6 +859,13 @@
             "name": "silentswap_order_id",
             "docs": [
               "SilentSwap order ID (for reference)"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "transaction_hash",
+            "docs": [
+              "Solana transaction hash (for destination tx)"
             ],
             "type": "string"
           },

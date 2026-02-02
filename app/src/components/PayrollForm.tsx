@@ -7,6 +7,7 @@ import { useUserAddress } from "@/hooks/useUserAddress";
 import { isValidSolanaAddress } from "@/utils/solana";
 import { useSilentSwapContext } from "@/app/providers";
 import { usePayrollProgram, RecipientWithKey, DEPARTMENTS } from "@/hooks/usePayrollProgram";
+import { toast } from "react-hot-toast";
 
 // Import useSilentSwap - uses stubs if provider not available
 import { useSilentSwap, useBalancesContext, useAssetsContext, useSwap } from "@silentswap/react";
@@ -29,7 +30,7 @@ const SOLANA_CHAIN_ID = "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
 // Native SOL: solana:<chainId>/slip44:501
 const CAIP19_NATIVE_SOL = `solana:${SOLANA_CHAIN_ID}/slip44:501`;
 
-export function PayrollForm() {
+export function PayrollForm({ onPayoutSuccess }: { onPayoutSuccess?: () => void }) {
   const { solAddress, evmAddress, isBothConnected } = useUserAddress();
   const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
   const { isConnected: isEvmConnected } = useAccount();
@@ -337,6 +338,30 @@ export function PayrollForm() {
               setStatusMessage(`Logging payment record for ${recipient.alias}...`);
               await createPaymentRecord(recipient.walletAddress, result.orderId);
               console.log(`Payment record created for ${recipient.alias}`);
+              
+              // Atomic UI update for Last Paid date in local state
+              setPayoutRecipients(prev => prev.map(r => 
+                r.id === recipient.id 
+                  ? { ...r, lastPaymentTimestamp: Math.floor(Date.now() / 1000) } 
+                  : r
+              ));
+
+              const solanaTx = (result as any).txHash || (result as any).destTxHash || "";
+              toast.success((t) => (
+                <div className="flex flex-col gap-1">
+                  <span className="font-bold text-green-400">Private payout sent to {recipient.alias}!</span>
+                  {solanaTx && (
+                    <a 
+                      href={`https://explorer.solana.com/tx/${solanaTx}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-blue-400 hover:underline flex items-center gap-1"
+                    >
+                      View on Solana Explorer ↗
+                    </a>
+                  )}
+                </div>
+              ), { duration: 6000 });
             } catch (recordError) {
               console.error("Failed to create on-chain payment record:", recordError);
               // We don't fail the whole loop if just the tracking record fails
@@ -382,6 +407,10 @@ export function PayrollForm() {
 
       console.log("Bulk payout results:", results);
       
+      // Trigger global refresh after entire batch is finished
+      if (onPayoutSuccess && results.some(r => r.success)) {
+        onPayoutSuccess();
+      }
     } catch (error: any) {
       console.error("Bulk payout error:", error);
       setStatusMessage(null);
@@ -513,24 +542,15 @@ export function PayrollForm() {
                     />
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="text-sm font-semibold text-white">{recipient.alias}</div>
-                        <div className="flex gap-1">
-                          <span className="px-1.5 py-0.5 bg-zinc-800 text-[9px] text-gray-400 rounded uppercase font-bold">
-                            {DEPARTMENTS.find(d => d.id === recipient.departmentId)?.label}
+                        <span className="text-gray-300 font-bold">{recipient.alias}</span>
+                        {recipient.lastPaymentTimestamp > 0 && (
+                          <span className="text-[10px] text-gray-400 italic">
+                            (Last paid: {new Date(recipient.lastPaymentTimestamp * 1000).toLocaleDateString()})
                           </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 text-[10px]">
-                        <span className="font-mono text-gray-500">
-                          {recipient.walletAddress.slice(0, 8)}...{recipient.walletAddress.slice(-8)}
-                        </span>
-                        {recipient.lastPaymentTimestamp > 0 ? (
-                          <span className="text-green-500/80 font-medium">
-                            Last Paid: {new Date(recipient.lastPaymentTimestamp * 1000).toLocaleDateString()}
-                          </span>
-                        ) : (
-                          <span className="text-yellow-500/80 font-medium italic">Never Paid</span>
                         )}
+                      </div>
+                      <div className="text-[10px] text-gray-500 font-mono truncate max-w-[150px] md:max-w-none">
+                        {recipient.walletAddress}
                       </div>
                     </div>
                   </div>
@@ -614,7 +634,7 @@ export function PayrollForm() {
       {swapError && (
         <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg">
           <p className="text-red-400 font-semibold">Error:</p>
-          <p className="text-red-300 text-sm mt-1">{swapError.message}</p>
+          <p className="text-red-300 text-sm mt-1">{swapError?.message || "Unknown error"}</p>
         </div>
       )}
 

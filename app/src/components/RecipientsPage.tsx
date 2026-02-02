@@ -58,6 +58,18 @@ export default function RecipientsPage() {
     }
   }, [publicKey, getEmployer, getRecipients]);
 
+  // Format timestamp to date string
+  const formatDate = (timestamp: any) => {
+    if (!timestamp || timestamp.toNumber() === 0) return 'Never';
+    return new Date(timestamp.toNumber() * 1000).toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   useEffect(() => {
     loadData();
   }, [loadData]);
@@ -328,7 +340,7 @@ export default function RecipientsPage() {
                   <div className="w-12 h-12 rounded-xl bg-purple-900/30 border border-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
                     {index + 1}
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-white font-bold text-lg">{rec.account.name}</span>
                       <span className="px-2 py-0.5 bg-gray-800 border border-gray-700 rounded text-[10px] text-gray-400 uppercase tracking-wider font-bold">
@@ -343,17 +355,24 @@ export default function RecipientsPage() {
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2">
-                       <span className="text-gray-500 text-sm font-mono tracking-tight">
+                    <div className="flex flex-col gap-1">
+                       <span className="text-gray-500 text-xs font-mono truncate max-w-[200px] md:max-w-none">
                         {rec.account.wallet.toString()}
                       </span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4">
-                  <div className="hidden md:block text-right">
-                    <div className="text-xs text-gray-500 uppercase font-bold mb-0.5">Total Payments</div>
+                <div className="flex items-center gap-6 lg:gap-12">
+                  <div className="text-right">
+                    <div className="text-[10px] text-gray-500 uppercase font-bold mb-0.5">Last Paid</div>
+                    <div className={`text-sm font-bold ${rec.account.lastPaymentTimestamp.toNumber() > 0 ? 'text-green-400' : 'text-gray-600'}`}>
+                      {formatDate(rec.account.lastPaymentTimestamp)}
+                    </div>
+                  </div>
+
+                  <div className="text-right min-w-[80px]">
+                    <div className="text-[10px] text-gray-500 uppercase font-bold mb-0.5">Total Paid</div>
                     <div className="text-white font-bold">{rec.account.totalPayments}</div>
                   </div>
                   {rec.account.isActive && (

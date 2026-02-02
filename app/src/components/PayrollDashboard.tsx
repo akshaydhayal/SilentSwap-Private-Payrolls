@@ -168,7 +168,7 @@ export function PayrollDashboard() {
                   onClick={handleConnectSolana}
                   className="text-sm px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
-                  Connect Solana
+                  Connect Solana(Phantom Wallet Only)
                 </button>
               )}
               {publicKey && (
@@ -188,7 +188,7 @@ export function PayrollDashboard() {
                   onClick={handleConnectEVM}
                   className="text-sm px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
-                  Connect EVM
+                  Connect EVM(MetaMask Wallet Only)
                 </button>
               )}
               {isEvmConnected && (
@@ -293,3 +293,5 @@ export function PayrollDashboard() {
     </div>
   );
 }
+
+export default PayrollDashboard;

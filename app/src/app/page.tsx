@@ -2,20 +2,11 @@
 
 import dynamic from "next/dynamic";
 
-// Dynamically import PayrollDashboard to avoid bundling SilentSwap modules
-// This prevents chunk load timeouts
 const PayrollDashboard = dynamic(
-  () => import("@/components/PayrollDashboard").then((mod) => ({ default: mod.PayrollDashboard })),
-  {
+  () => import("@/components/PayrollDashboard"),
+  { 
     ssr: false,
-    loading: () => (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <p className="text-gray-400 mb-2">Loading dashboard...</p>
-          <div className="w-8 h-8 border-4 border-gray-600 border-t-yellow-500 rounded-full animate-spin mx-auto"></div>
-        </div>
-      </div>
-    ),
+    loading: () => <div className="min-h-[400px]" /> 
   }
 );
 

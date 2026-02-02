@@ -5,11 +5,9 @@ anchor_version = "0.32.1"
 resolution = true
 skip-lint = false
 
-[programs.mainnet]
-silentswap_payroll = "3QGaDwAq68PnJZvVDkM32ejP8e3GNRCLNqm6vRYhRDFW"
 
 [programs.devnet]
-silentswap_payroll = "3QGaDwAq68PnJZvVDkM32ejP8e3GNRCLNqm6vRYhRDFW"
+silentswap_payroll = "DowzTqkaMpVVeduM94rWgSereqprcZ5QfgrSaMqUxWQK"
 
 [registry]
 url = "https://api.apr.dev"
