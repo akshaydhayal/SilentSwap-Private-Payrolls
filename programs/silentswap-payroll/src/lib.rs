@@ -32,6 +32,8 @@ pub mod silentswap_payroll {
         ctx: Context<AddRecipient>,
         name: String,
         role: String,
+        department_id: u8,
+        category: u8,
     ) -> Result<()> {
         require!(name.len() <= MAX_NAME_LENGTH, PayrollError::NameTooLong);
         require!(role.len() <= MAX_ROLE_LENGTH, PayrollError::RoleTooLong);
@@ -41,15 +43,19 @@ pub mod silentswap_payroll {
         recipient.wallet = ctx.accounts.wallet.key();
         recipient.name = name;
         recipient.role = role;
+        recipient.department_id = department_id;
+        recipient.category = category;
         recipient.is_active = true;
         recipient.created_at = Clock::get()?.unix_timestamp;
+        recipient.last_payment_timestamp = 0;
+        recipient.total_payments = 0;
         recipient.bump = ctx.bumps.recipient;
         
         // Increment employer's recipient count
         let employer = &mut ctx.accounts.employer;
         employer.recipient_count = employer.recipient_count.checked_add(1).unwrap();
         
-        msg!("Recipient added: {} ({})", recipient.name, recipient.wallet);
+        msg!("Recipient added: {} ({}) in Dept: {}", recipient.name, recipient.wallet, department_id);
         Ok(())
     }
 
@@ -58,6 +64,8 @@ pub mod silentswap_payroll {
         ctx: Context<UpdateRecipient>,
         name: Option<String>,
         role: Option<String>,
+        department_id: Option<u8>,
+        category: Option<u8>,
     ) -> Result<()> {
         let recipient = &mut ctx.accounts.recipient;
         
@@ -69,6 +77,14 @@ pub mod silentswap_payroll {
         if let Some(new_role) = role {
             require!(new_role.len() <= MAX_ROLE_LENGTH, PayrollError::RoleTooLong);
             recipient.role = new_role;
+        }
+
+        if let Some(new_dept) = department_id {
+            recipient.department_id = new_dept;
+        }
+
+        if let Some(new_cat) = category {
+            recipient.category = new_cat;
         }
         
         msg!("Recipient updated: {}", recipient.name);
@@ -110,15 +126,21 @@ pub mod silentswap_payroll {
         payment.recipient_wallet = ctx.accounts.recipient.wallet;
         payment.status = PaymentStatus::Pending;
         payment.silentswap_order_id = silentswap_order_id;
-        payment.created_at = Clock::get()?.unix_timestamp;
-        payment.updated_at = payment.created_at;
+        let now = Clock::get()?.unix_timestamp;
+        payment.created_at = now;
+        payment.updated_at = now;
         payment.bump = ctx.bumps.payment_record;
         
+        // Update recipient's last payment info
+        let recipient = &mut ctx.accounts.recipient;
+        recipient.last_payment_timestamp = now;
+        recipient.total_payments = recipient.total_payments.checked_add(1).unwrap();
+
         // Increment employer's payment count
         let employer = &mut ctx.accounts.employer;
         employer.payment_count = employer.payment_count.checked_add(1).unwrap();
         
-        msg!("Payment record created for recipient: {}", ctx.accounts.recipient.name);
+        msg!("Payment record created and tracking updated for: {}", recipient.name);
         Ok(())
     }
 
@@ -176,7 +198,7 @@ pub struct InitializeEmployer<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(name: String, role: String)]
+#[instruction(name: String, role: String, department_id: u8, category: u8)]
 pub struct AddRecipient<'info> {
     #[account(
         init,
@@ -251,6 +273,7 @@ pub struct CreatePaymentRecord<'info> {
     pub employer: Account<'info, Employer>,
     
     #[account(
+        mut, // NOW MUTABLE for tracking updates
         seeds = [b"recipient", employer.key().as_ref(), recipient.wallet.as_ref()],
         bump = recipient.bump,
         has_one = employer
@@ -319,7 +342,7 @@ pub struct Recipient {
     pub employer: Pubkey,
     /// Payment destination wallet
     pub wallet: Pubkey,
-    /// Display name
+    /// Display name (anonymous alias)
     pub name: String,
     /// Role/label (e.g., "Engineer", "Designer")
     pub role: String,
@@ -327,6 +350,14 @@ pub struct Recipient {
     pub is_active: bool,
     /// Account creation timestamp
     pub created_at: i64,
+    /// Timestamp of the last payment initiation
+    pub last_payment_timestamp: i64,
+    /// Total number of payments created for this recipient
+    pub total_payments: u32,
+    /// Department ID (0: Eng, 1: Mkt, 2: Sales, 3: Ops, 4: HR)
+    pub department_id: u8,
+    /// Category ID (0: Full-time, 1: Part-time, 2: Contractor)
+    pub category: u8,
     /// PDA bump
     pub bump: u8,
 }
@@ -340,6 +371,10 @@ impl Recipient {
         4 + role.len() +        // role (string)
         1 +                     // is_active
         8 +                     // created_at
+        8 +                     // last_payment_timestamp
+        4 +                     // total_payments
+        1 +                     // department_id
+        1 +                     // category
         1                       // bump
     }
 }
@@ -400,3 +435,4 @@ pub enum PayrollError {
     #[msg("Invalid payment status for this operation")]
     InvalidPaymentStatus,
 }
+

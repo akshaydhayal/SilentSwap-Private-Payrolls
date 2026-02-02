@@ -104,9 +104,12 @@ function SilentSwapProviderInner({
     return connection || undefined;
   }, [solanaConnectionAdapter, connection]);
 
-  // Create SilentSwap client for MAINNET
+  // Create SilentSwap client based on environment variable
   const environment = useMemo(() => {
-    // FORCE MAINNET for Solana support
+    const env = process.env.NEXT_PUBLIC_SILENTSWAP_ENV;
+    if (env === 'staging') return ENVIRONMENT.STAGING;
+    if (env === 'production') return ENVIRONMENT.MAINNET;
+    // Default to staging for safety during development
     return ENVIRONMENT.STAGING;
   }, [ENVIRONMENT]);
 

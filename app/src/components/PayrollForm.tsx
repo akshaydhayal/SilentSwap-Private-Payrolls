@@ -6,7 +6,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useUserAddress } from "@/hooks/useUserAddress";
 import { isValidSolanaAddress } from "@/utils/solana";
 import { useSilentSwapContext } from "@/app/providers";
-import { usePayrollProgram, RecipientWithKey } from "@/hooks/usePayrollProgram";
+import { usePayrollProgram, RecipientWithKey, DEPARTMENTS } from "@/hooks/usePayrollProgram";
 
 // Import useSilentSwap - uses stubs if provider not available
 import { useSilentSwap, useBalancesContext, useAssetsContext, useSwap } from "@silentswap/react";
@@ -18,6 +18,9 @@ export interface PayoutRecipient {
   alias: string;
   amount: string;
   selected: boolean;
+  departmentId: number;
+  category: number;
+  lastPaymentTimestamp: number;
 }
 
 // Standard Solana Mainnet Genesis Hash (Expected by SilentSwap SDK)
@@ -34,7 +37,7 @@ export function PayrollForm() {
   const { isReady: isSilentSwapReady, isLoading: isSilentSwapLoading, error: silentSwapError } = useSilentSwapContext();
   
   // Load recipients from Devnet program
-  const { getRecipients, getEmployer } = usePayrollProgram();
+  const { getRecipients, getEmployer, createPaymentRecord } = usePayrollProgram();
   const [devnetRecipients, setDevnetRecipients] = useState<RecipientWithKey[]>([]);
   const [loadingRecipients, setLoadingRecipients] = useState(false);
   
@@ -87,6 +90,9 @@ export function PayrollForm() {
               alias: r.account.name,
               amount: '',
               selected: false,
+              departmentId: r.account.departmentId,
+              category: r.account.category,
+              lastPaymentTimestamp: r.account.lastPaymentTimestamp.toNumber(),
             }))
           );
         }
@@ -324,6 +330,19 @@ export function PayrollForm() {
           } as any);
 
           console.log(`Swap ${i + 1} result:`, result);
+          
+          // CRITICAL: Log payment RECORD on Devnet for tracking
+          if (result?.orderId) {
+            try {
+              setStatusMessage(`Logging payment record for ${recipient.alias}...`);
+              await createPaymentRecord(recipient.walletAddress, result.orderId);
+              console.log(`Payment record created for ${recipient.alias}`);
+            } catch (recordError) {
+              console.error("Failed to create on-chain payment record:", recordError);
+              // We don't fail the whole loop if just the tracking record fails
+            }
+          }
+
           results.push({ 
             success: true, 
             orderId: result?.orderId || 'unknown' 
@@ -493,9 +512,25 @@ export function PayrollForm() {
                       className="w-5 h-5 rounded border-zinc-700 text-purple-600 focus:ring-purple-500 bg-zinc-900"
                     />
                     <div>
-                      <div className="text-sm font-semibold text-white">{recipient.alias}</div>
-                      <div className="text-xs font-mono text-gray-500">
-                        {recipient.walletAddress.slice(0, 8)}...{recipient.walletAddress.slice(-8)}
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="text-sm font-semibold text-white">{recipient.alias}</div>
+                        <div className="flex gap-1">
+                          <span className="px-1.5 py-0.5 bg-zinc-800 text-[9px] text-gray-400 rounded uppercase font-bold">
+                            {DEPARTMENTS.find(d => d.id === recipient.departmentId)?.label}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px]">
+                        <span className="font-mono text-gray-500">
+                          {recipient.walletAddress.slice(0, 8)}...{recipient.walletAddress.slice(-8)}
+                        </span>
+                        {recipient.lastPaymentTimestamp > 0 ? (
+                          <span className="text-green-500/80 font-medium">
+                            Last Paid: {new Date(recipient.lastPaymentTimestamp * 1000).toLocaleDateString()}
+                          </span>
+                        ) : (
+                          <span className="text-yellow-500/80 font-medium italic">Never Paid</span>
+                        )}
                       </div>
                     </div>
                   </div>

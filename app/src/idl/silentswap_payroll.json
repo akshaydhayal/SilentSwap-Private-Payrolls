@@ -105,6 +105,14 @@
         {
           "name": "role",
           "type": "string"
+        },
+        {
+          "name": "department_id",
+          "type": "u8"
+        },
+        {
+          "name": "category",
+          "type": "u8"
         }
       ]
     },
@@ -188,6 +196,7 @@
         },
         {
           "name": "recipient",
+          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -670,6 +679,18 @@
           "type": {
             "option": "string"
           }
+        },
+        {
+          "name": "department_id",
+          "type": {
+            "option": "u8"
+          }
+        },
+        {
+          "name": "category",
+          "type": {
+            "option": "u8"
+          }
         }
       ]
     }
@@ -895,7 +916,7 @@
           {
             "name": "name",
             "docs": [
-              "Display name"
+              "Display name (anonymous alias)"
             ],
             "type": "string"
           },
@@ -919,6 +940,34 @@
               "Account creation timestamp"
             ],
             "type": "i64"
+          },
+          {
+            "name": "last_payment_timestamp",
+            "docs": [
+              "Timestamp of the last payment initiation"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "total_payments",
+            "docs": [
+              "Total number of payments created for this recipient"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "department_id",
+            "docs": [
+              "Department ID (0: Eng, 1: Mkt, 2: Sales, 3: Ops, 4: HR)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "category",
+            "docs": [
+              "Category ID (0: Full-time, 1: Part-time, 2: Contractor)"
+            ],
+            "type": "u8"
           },
           {
             "name": "bump",

@@ -1,16 +1,23 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { usePayrollProgram, RecipientWithKey } from '../hooks/usePayrollProgram';
+import { usePayrollProgram, RecipientWithKey, DEPARTMENTS, CATEGORIES } from '../hooks/usePayrollProgram';
 import { PublicKey } from '@solana/web3.js';
 
 interface AddRecipientForm {
   walletAddress: string;
+  departmentId: number;
+  category: number;
 }
 
 // Generate anonymous alias based on index
 function generateAnonymousAlias(index: number): string {
   return `Recipient-${index + 1}`;
+}
+
+// Helper to get label for ID
+function getLabel(items: { id: number; label: string }[], id: number): string {
+  return items.find(item => item.id === id)?.label || 'Unknown';
 }
 
 export default function RecipientsPage() {
@@ -33,6 +40,8 @@ export default function RecipientsPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [addForm, setAddForm] = useState<AddRecipientForm>({
     walletAddress: '',
+    departmentId: 0,
+    category: 0,
   });
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -100,9 +109,15 @@ export default function RecipientsPage() {
       const nextIndex = recipients.length;
       const anonymousAlias = generateAnonymousAlias(nextIndex);
       
-      await addRecipient(addForm.walletAddress, anonymousAlias, 'Private');
+      await addRecipient(
+        addForm.walletAddress, 
+        anonymousAlias, 
+        'Private', 
+        addForm.departmentId, 
+        addForm.category
+      );
       setStatusMessage({ type: 'success', text: `${anonymousAlias} added successfully!` });
-      setAddForm({ walletAddress: '' });
+      setAddForm({ walletAddress: '', departmentId: 0, category: 0 });
       setShowAddForm(false);
       await loadData();
     } catch (err: any) {
@@ -197,11 +212,17 @@ export default function RecipientsPage() {
       </div>
 
       {/* Privacy Notice */}
-      <div className="mb-4 p-3 bg-yellow-900/20 border border-yellow-800/50 rounded-lg">
-        <p className="text-yellow-400 text-sm">
-          🔒 <strong>Privacy First:</strong> Recipients are stored as anonymous aliases (Recipient-1, Recipient-2, etc.) 
-          to protect identity. Only wallet addresses are stored on-chain.
-        </p>
+      <div className="mb-4 p-4 bg-purple-900/20 border border-purple-800/50 rounded-xl">
+        <div className="flex gap-3">
+          <span className="text-2xl">🔒</span>
+          <div>
+            <p className="text-purple-300 font-semibold mb-1">Privacy Focused Configuration</p>
+            <p className="text-purple-400/80 text-sm leading-relaxed">
+              Recipients are stored using auto-generated aliases (Recipient-1, Recipient-2, etc.). 
+              Department and Category are stored as numeric IDs and mapped locally, keeping internal structure private.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Status Message */}
@@ -215,34 +236,68 @@ export default function RecipientsPage() {
 
       {/* Add Recipient Form */}
       {showAddForm && (
-        <div className="mb-6 p-4 bg-gray-700/50 rounded-lg border border-gray-600">
-          <h3 className="text-lg font-semibold text-white mb-4">Add New Recipient</h3>
-          <div className="space-y-4">
+        <div className="mb-6 p-6 bg-gray-700/50 rounded-xl border border-gray-600 shadow-xl backdrop-blur-sm animate-in fade-in slide-in-from-top-4 duration-300">
+          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <span className="p-2 bg-purple-900/50 rounded-lg text-purple-400">👤</span>
+            Add New Anonymous Recipient
+          </h3>
+          <div className="space-y-6">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Wallet Address *</label>
+              <label className="block text-sm font-medium text-gray-400 mb-2">Wallet Address (Target on Mainnet)</label>
               <input
                 type="text"
                 value={addForm.walletAddress}
                 onChange={(e) => setAddForm({ ...addForm, walletAddress: e.target.value })}
-                placeholder="Solana wallet address"
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Paste Solana address"
+                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white font-mono placeholder-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
               />
             </div>
-            <p className="text-sm text-gray-500">
-              This recipient will be assigned an anonymous alias: <strong className="text-purple-400">Recipient-{recipients.length + 1}</strong>
-            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Department</label>
+                <select
+                  value={addForm.departmentId}
+                  onChange={(e) => setAddForm({ ...addForm, departmentId: parseInt(e.target.value) })}
+                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                >
+                  {DEPARTMENTS.map(dept => (
+                    <option key={dept.id} value={dept.id}>{dept.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Category</label>
+                <select
+                  value={addForm.category}
+                  onChange={(e) => setAddForm({ ...addForm, category: parseInt(e.target.value) })}
+                  className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                >
+                  {CATEGORIES.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <p className="text-sm text-gray-500 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+                Will be displayed as: <strong className="text-purple-400 font-bold">{generateAnonymousAlias(recipients.length)}</strong>
+              </p>
+            </div>
           </div>
-          <div className="mt-4 flex gap-3">
+          <div className="mt-8 flex gap-3">
             <button
               onClick={handleAddRecipient}
               disabled={isLoading}
-              className="px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition-all"
+              className="flex-1 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg disabled:opacity-50 transition-all flex items-center justify-center gap-2"
             >
-              {isLoading ? 'Adding...' : 'Add Recipient'}
+              {isLoading ? 'Processing...' : 'Add Recipient'}
             </button>
             <button
               onClick={() => setShowAddForm(false)}
-              className="px-4 py-2 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-500 transition-all"
+              className="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white font-bold rounded-lg transition-all"
             >
               Cancel
             </button>
@@ -251,50 +306,65 @@ export default function RecipientsPage() {
       )}
 
       {/* Recipients List */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {recipients.length === 0 ? (
-          <div className="text-center py-12 text-gray-400">
-            <p className="text-lg">No recipients yet</p>
-            <p className="text-sm">Add your first recipient to start managing payroll</p>
+          <div className="text-center py-16 bg-gray-900/30 rounded-xl border border-dashed border-gray-700">
+            <div className="text-4xl mb-4">📭</div>
+            <p className="text-xl text-gray-300 font-semibold">No recipients yet</p>
+            <p className="text-gray-500 mt-1">Start by adding your first payroll recipient securely.</p>
           </div>
         ) : (
           recipients.map((rec, index) => (
             <div
               key={rec.publicKey.toString()}
-              className={`p-4 rounded-lg border ${
+              className={`p-5 rounded-xl border transition-all duration-200 ${
                 rec.account.isActive 
-                  ? 'bg-gray-700/50 border-gray-600' 
-                  : 'bg-gray-800/50 border-gray-700 opacity-60'
+                  ? 'bg-gray-900/40 border-gray-700 hover:border-gray-600 group' 
+                  : 'bg-gray-800/50 border-gray-800 opacity-60'
               }`}
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">
-                    #{index + 1}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-purple-900/30 border border-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
+                    {index + 1}
                   </div>
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-white font-medium">{rec.account.name}</span>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-white font-bold text-lg">{rec.account.name}</span>
+                      <span className="px-2 py-0.5 bg-gray-800 border border-gray-700 rounded text-[10px] text-gray-400 uppercase tracking-wider font-bold">
+                        {getLabel(DEPARTMENTS, rec.account.departmentId)}
+                      </span>
+                      <span className="px-2 py-0.5 bg-blue-900/20 border border-blue-500/10 rounded text-[10px] text-blue-400 uppercase tracking-wider font-bold">
+                        {getLabel(CATEGORIES, rec.account.category)}
+                      </span>
                       {!rec.account.isActive && (
-                        <span className="text-red-400 text-xs px-2 py-0.5 bg-red-900/30 rounded">
-                          Inactive
+                        <span className="px-2 py-0.5 bg-red-900/20 text-red-400 border border-red-900/50 rounded text-[10px] font-bold">
+                          DEACTIVATED
                         </span>
                       )}
                     </div>
-                    <div className="text-gray-500 text-sm font-mono">
-                      {rec.account.wallet.toString().slice(0, 8)}...{rec.account.wallet.toString().slice(-8)}
+                    <div className="flex items-center gap-2">
+                       <span className="text-gray-500 text-sm font-mono tracking-tight">
+                        {rec.account.wallet.toString()}
+                      </span>
                     </div>
                   </div>
                 </div>
                 
-                {rec.account.isActive && (
-                  <button
-                    onClick={() => handleDeactivateRecipient(rec.account.wallet.toString(), rec.account.name)}
-                    className="px-3 py-1.5 text-sm bg-red-600/20 text-red-400 rounded-lg hover:bg-red-600/30 transition-all"
-                  >
-                    Deactivate
-                  </button>
-                )}
+                <div className="flex items-center gap-4">
+                  <div className="hidden md:block text-right">
+                    <div className="text-xs text-gray-500 uppercase font-bold mb-0.5">Total Payments</div>
+                    <div className="text-white font-bold">{rec.account.totalPayments}</div>
+                  </div>
+                  {rec.account.isActive && (
+                    <button
+                      onClick={() => handleDeactivateRecipient(rec.account.wallet.toString(), rec.account.name)}
+                      className="px-4 py-2 text-sm bg-red-900/10 text-red-500 border border-red-900/30 rounded-lg hover:bg-red-900/30 transition-all opacity-0 group-hover:opacity-100 font-bold"
+                    >
+                      Deactivate
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))
@@ -302,12 +372,14 @@ export default function RecipientsPage() {
       </div>
 
       {/* Devnet Notice */}
-      <div className="mt-6 p-3 bg-blue-900/20 border border-blue-800/50 rounded-lg">
-        <p className="text-blue-400 text-sm">
-          ℹ️ Recipient data is stored on Solana <strong>Devnet</strong> (free, no real SOL required). 
-          Private payments will be executed on <strong>Mainnet</strong> using SilentSwap.
+      <div className="mt-8 p-4 bg-blue-900/10 border border-blue-900/30 rounded-xl flex gap-3 items-center">
+        <span className="text-lg">ℹ️</span>
+        <p className="text-blue-400/80 text-sm">
+          Management data is stored on <strong className="text-blue-300">Solana Devnet</strong>. 
+          Private payroll execution will use <strong className="text-blue-300 font-mono tracking-wider ml-1">{process.env.NEXT_PUBLIC_SILENTSWAP_ENV?.toUpperCase() || 'STAGING'}</strong> environment via SilentSwap.
         </p>
       </div>
     </div>
   );
 }
+

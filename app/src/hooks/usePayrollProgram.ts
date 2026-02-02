@@ -12,6 +12,21 @@ const DEVNET_RPC_URL = clusterApiUrl('devnet');
 // IDL - imported from generated file
 import idlJson from '../idl/silentswap_payroll.json';
 
+// Constants for Off-chain metadata mapping
+export const DEPARTMENTS = [
+  { id: 0, label: 'Engineering' },
+  { id: 1, label: 'Marketing' },
+  { id: 2, label: 'Sales' },
+  { id: 3, label: 'Operations' },
+  { id: 4, label: 'HR' },
+];
+
+export const CATEGORIES = [
+  { id: 0, label: 'Full-time' },
+  { id: 1, label: 'Part-time' },
+  { id: 2, label: 'Contractor' },
+];
+
 // Types
 export interface Employer {
   owner: PublicKey;
@@ -29,6 +44,10 @@ export interface Recipient {
   role: string;
   isActive: boolean;
   createdAt: BN;
+  lastPaymentTimestamp: BN;
+  totalPayments: number;
+  departmentId: number;
+  category: number;
   bump: number;
 }
 
@@ -179,7 +198,9 @@ export function usePayrollProgram() {
   const addRecipient = useCallback(async (
     walletAddress: string,
     name: string,
-    role: string
+    role: string,
+    departmentId: number = 0,
+    category: number = 0
   ): Promise<string> => {
     if (!program || !publicKey) throw new Error('Wallet not connected');
     
@@ -192,7 +213,7 @@ export function usePayrollProgram() {
       const [recipientPda] = getRecipientPda(employerPda, walletPubkey);
       
       const tx = await (program.methods as any)
-        .addRecipient(name, role)
+        .addRecipient(name, role, departmentId, category)
         .accounts({
           recipient: recipientPda,
           employer: employerPda,
@@ -215,7 +236,9 @@ export function usePayrollProgram() {
   const updateRecipient = useCallback(async (
     walletAddress: string,
     name?: string,
-    role?: string
+    role?: string,
+    departmentId?: number,
+    category?: number
   ): Promise<string> => {
     if (!program || !publicKey) throw new Error('Wallet not connected');
     
@@ -228,7 +251,12 @@ export function usePayrollProgram() {
       const [recipientPda] = getRecipientPda(employerPda, walletPubkey);
       
       const tx = await (program.methods as any)
-        .updateRecipient(name || null, role || null)
+        .updateRecipient(
+          name || null, 
+          role || null, 
+          departmentId !== undefined ? departmentId : null, 
+          category !== undefined ? category : null
+        )
         .accounts({
           recipient: recipientPda,
           employer: employerPda,
