@@ -6,10 +6,10 @@ resolution = true
 skip-lint = false
 
 [programs.mainnet]
-silentswap_payroll = "4GrNpDUsk5k7NfywagMcfypX9MGAHD6BAJ48PhZtMeUK"
+silentswap_payroll = "3QGaDwAq68PnJZvVDkM32ejP8e3GNRCLNqm6vRYhRDFW"
 
 [programs.devnet]
-silentswap_payroll = "4GrNpDUsk5k7NfywagMcfypX9MGAHD6BAJ48PhZtMeUK"
+silentswap_payroll = "3QGaDwAq68PnJZvVDkM32ejP8e3GNRCLNqm6vRYhRDFW"
 
 [registry]
 url = "https://api.apr.dev"

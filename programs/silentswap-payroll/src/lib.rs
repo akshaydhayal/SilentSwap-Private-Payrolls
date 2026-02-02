@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("4GrNpDUsk5k7NfywagMcfypX9MGAHD6BAJ48PhZtMeUK");
+declare_id!("3QGaDwAq68PnJZvVDkM32ejP8e3GNRCLNqm6vRYhRDFW");
 
 /// Maximum length for string fields
 pub const MAX_NAME_LENGTH: usize = 64;
@@ -201,7 +201,7 @@ pub struct InitializeEmployer<'info> {
 #[instruction(name: String, role: String, department_id: u8, category: u8)]
 pub struct AddRecipient<'info> {
     #[account(
-        init,
+        init_if_needed,
         payer = owner,
         space = Recipient::space(&name, &role),
         seeds = [b"recipient", employer.key().as_ref(), wallet.key().as_ref()],
