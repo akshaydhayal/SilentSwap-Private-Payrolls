@@ -1,0 +1,934 @@
+{
+  "address": "4GrNpDUsk5k7NfywagMcfypX9MGAHD6BAJ48PhZtMeUK",
+  "metadata": {
+    "name": "silentswap_payroll",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Privacy-preserving payroll management on Solana"
+  },
+  "instructions": [
+    {
+      "name": "add_recipient",
+      "docs": [
+        "Add a new recipient to the employer's payroll"
+      ],
+      "discriminator": [
+        207,
+        170,
+        166,
+        28,
+        210,
+        186,
+        242,
+        145
+      ],
+      "accounts": [
+        {
+          "name": "recipient",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  105,
+                  112,
+                  105,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "employer"
+              },
+              {
+                "kind": "account",
+                "path": "wallet"
+              }
+            ]
+          }
+        },
+        {
+          "name": "employer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "wallet",
+          "docs": [
+            "The wallet address of the recipient (for PDA derivation)"
+          ]
+        },
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "employer"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "role",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "create_payment_record",
+      "docs": [
+        "Create a payment record (when initiating a SilentSwap payment)",
+        "NOTE: Amount is NOT stored for privacy"
+      ],
+      "discriminator": [
+        202,
+        83,
+        2,
+        64,
+        167,
+        74,
+        251,
+        135
+      ],
+      "accounts": [
+        {
+          "name": "payment_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  97,
+                  121,
+                  109,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "employer"
+              },
+              {
+                "kind": "account",
+                "path": "recipient"
+              },
+              {
+                "kind": "account",
+                "path": "employer.payment_count",
+                "account": "Employer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "employer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "recipient"
+          ]
+        },
+        {
+          "name": "recipient",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  105,
+                  112,
+                  105,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "employer"
+              },
+              {
+                "kind": "account",
+                "path": "recipient.wallet",
+                "account": "Recipient"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "employer"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "silentswap_order_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "deactivate_recipient",
+      "docs": [
+        "Deactivate a recipient (soft delete)"
+      ],
+      "discriminator": [
+        70,
+        178,
+        212,
+        188,
+        41,
+        235,
+        0,
+        185
+      ],
+      "accounts": [
+        {
+          "name": "recipient",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  105,
+                  112,
+                  105,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "employer"
+              },
+              {
+                "kind": "account",
+                "path": "recipient.wallet",
+                "account": "Recipient"
+              }
+            ]
+          }
+        },
+        {
+          "name": "employer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "recipient"
+          ]
+        },
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": [
+            "employer"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_employer",
+      "docs": [
+        "Initialize an employer account"
+      ],
+      "discriminator": [
+        80,
+        198,
+        77,
+        100,
+        19,
+        208,
+        189,
+        202
+      ],
+      "accounts": [
+        {
+          "name": "employer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          }
+        },
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "mark_payment_completed",
+      "docs": [
+        "Update payment status to completed"
+      ],
+      "discriminator": [
+        52,
+        233,
+        25,
+        249,
+        167,
+        45,
+        65,
+        219
+      ],
+      "accounts": [
+        {
+          "name": "payment_record",
+          "writable": true
+        },
+        {
+          "name": "employer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "payment_record"
+          ]
+        },
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": [
+            "employer"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "mark_payment_failed",
+      "docs": [
+        "Update payment status to failed"
+      ],
+      "discriminator": [
+        54,
+        41,
+        108,
+        114,
+        178,
+        229,
+        255,
+        110
+      ],
+      "accounts": [
+        {
+          "name": "payment_record",
+          "writable": true
+        },
+        {
+          "name": "employer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "payment_record"
+          ]
+        },
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": [
+            "employer"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "reactivate_recipient",
+      "docs": [
+        "Reactivate a recipient"
+      ],
+      "discriminator": [
+        240,
+        80,
+        177,
+        8,
+        222,
+        148,
+        79,
+        85
+      ],
+      "accounts": [
+        {
+          "name": "recipient",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  105,
+                  112,
+                  105,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "employer"
+              },
+              {
+                "kind": "account",
+                "path": "recipient.wallet",
+                "account": "Recipient"
+              }
+            ]
+          }
+        },
+        {
+          "name": "employer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "recipient"
+          ]
+        },
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": [
+            "employer"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_recipient",
+      "docs": [
+        "Update recipient details"
+      ],
+      "discriminator": [
+        55,
+        190,
+        61,
+        121,
+        131,
+        132,
+        8,
+        54
+      ],
+      "accounts": [
+        {
+          "name": "recipient",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  105,
+                  112,
+                  105,
+                  101,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "employer"
+              },
+              {
+                "kind": "account",
+                "path": "recipient.wallet",
+                "account": "Recipient"
+              }
+            ]
+          }
+        },
+        {
+          "name": "employer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "owner"
+              }
+            ]
+          },
+          "relations": [
+            "recipient"
+          ]
+        },
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": [
+            "employer"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "role",
+          "type": {
+            "option": "string"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Employer",
+      "discriminator": [
+        34,
+        80,
+        59,
+        57,
+        83,
+        119,
+        213,
+        106
+      ]
+    },
+    {
+      "name": "PaymentRecord",
+      "discriminator": [
+        202,
+        168,
+        56,
+        249,
+        127,
+        226,
+        86,
+        226
+      ]
+    },
+    {
+      "name": "Recipient",
+      "discriminator": [
+        80,
+        186,
+        47,
+        196,
+        232,
+        251,
+        21,
+        148
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NameTooLong",
+      "msg": "Name exceeds maximum length"
+    },
+    {
+      "code": 6001,
+      "name": "RoleTooLong",
+      "msg": "Role exceeds maximum length"
+    },
+    {
+      "code": 6002,
+      "name": "OrderIdTooLong",
+      "msg": "Order ID exceeds maximum length"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidPaymentStatus",
+      "msg": "Invalid payment status for this operation"
+    }
+  ],
+  "types": [
+    {
+      "name": "Employer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "docs": [
+              "Wallet that owns this employer account"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "docs": [
+              "Business/employer name"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "recipient_count",
+            "docs": [
+              "Number of recipients added"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "payment_count",
+            "docs": [
+              "Number of payment records created"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Account creation timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaymentRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "employer",
+            "docs": [
+              "Parent employer account"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "recipient",
+            "docs": [
+              "Recipient account (PDA)"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "recipient_wallet",
+            "docs": [
+              "Recipient wallet (for reference)"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "status",
+            "docs": [
+              "Payment status"
+            ],
+            "type": {
+              "defined": {
+                "name": "PaymentStatus"
+              }
+            }
+          },
+          {
+            "name": "silentswap_order_id",
+            "docs": [
+              "SilentSwap order ID (for reference)"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Record creation timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "updated_at",
+            "docs": [
+              "Last update timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaymentStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pending"
+          },
+          {
+            "name": "Completed"
+          },
+          {
+            "name": "Failed"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Recipient",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "employer",
+            "docs": [
+              "Parent employer account"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "wallet",
+            "docs": [
+              "Payment destination wallet"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "docs": [
+              "Display name"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "role",
+            "docs": [
+              "Role/label (e.g., \"Engineer\", \"Designer\")"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "is_active",
+            "docs": [
+              "Whether recipient is active"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Account creation timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -107,7 +107,7 @@ function SilentSwapProviderInner({
   // Create SilentSwap client for MAINNET
   const environment = useMemo(() => {
     // FORCE MAINNET for Solana support
-    return ENVIRONMENT.MAINNET;
+    return ENVIRONMENT.STAGING;
   }, [ENVIRONMENT]);
 
   const client = useMemo(() => {

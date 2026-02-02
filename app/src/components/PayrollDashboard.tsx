@@ -7,7 +7,10 @@ import { useAccount, useConnect, useDisconnect, useWalletClient } from "wagmi";
 import { useUserAddress } from "@/hooks/useUserAddress";
 import { PayrollForm } from "./PayrollForm";
 import { PayrollHistory } from "./PayrollHistory";
+import RecipientsPage from "./RecipientsPage";
 import { useSilentSwapContext } from "@/app/providers";
+
+type Tab = 'recipients' | 'payroll' | 'history';
 
 export function PayrollDashboard() {
   const { publicKey, disconnect: disconnectSolana, connect: connectSolana, wallet, select, connected: solanaConnected } = useWallet();
@@ -18,6 +21,8 @@ export function PayrollDashboard() {
   const { disconnect } = useDisconnect();
   const { isBothConnected, solAddress } = useUserAddress();
   const { isReady: isSilentSwapReady, isLoading: isSilentSwapLoading, error: silentSwapError } = useSilentSwapContext();
+  
+  const [activeTab, setActiveTab] = useState<Tab>('recipients');
 
   // Get connectors
   const metaMaskConnector = connectors.find((c) => c.id === "metaMask" || c.id === "io.metamask" || c.name === "MetaMask");
@@ -139,160 +144,152 @@ export function PayrollDashboard() {
     }
   }, [disconnect]);
 
+  const tabs: { id: Tab; label: string; icon: string }[] = [
+    { id: 'recipients', label: 'Recipients', icon: '👥' },
+    { id: 'payroll', label: 'Execute Payroll', icon: '💸' },
+    { id: 'history', label: 'History', icon: '📋' },
+  ];
+
   return (
-    <div className="space-y-8">
-      {/* Wallet Connection Status */}
-      <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
-        <h2 className="text-xl font-semibold mb-4">Wallet Connections</h2>
-        <p className="text-sm text-gray-400 mb-4">
-          SilentSwap requires both Solana (Phantom) and EVM (MetaMask) wallets connected.
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Solana Wallet */}
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400 flex items-center gap-2">
+    <div className="space-y-6">
+      {/* Wallet Connection Status - Compact */}
+      <div className="bg-zinc-900 rounded-xl p-4 border border-zinc-800">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            {/* Solana Status */}
+            <div className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full ${solanaConnected ? 'bg-green-500' : 'bg-gray-500'}`}></span>
-              Solana Wallet {solanaConnected ? '(Connected)' : ''}
-            </label>
-            <div className="flex items-center gap-3">
               {publicKey ? (
-                <>
-                  <div className="flex-1 bg-zinc-800 rounded-lg p-3">
-                    <p className="text-sm font-mono text-green-400">
-                      {publicKey.toBase58().slice(0, 8)}...{publicKey.toBase58().slice(-8)}
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleDisconnectSolana}
-                    type="button"
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm cursor-pointer transition-colors"
-                  >
-                    Disconnect
-                  </button>
-                </>
+                <span className="text-sm font-mono text-green-400">
+                  SOL: {publicKey.toBase58().slice(0, 4)}...{publicKey.toBase58().slice(-4)}
+                </span>
               ) : (
                 <button
                   onClick={handleConnectSolana}
-                  type="button"
-                  className="flex-1 px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold cursor-pointer transition-colors"
+                  className="text-sm px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
-                  Connect Solana Wallet
+                  Connect Solana
                 </button>
               )}
+              {publicKey && (
+                <button onClick={handleDisconnectSolana} className="text-xs text-gray-500 hover:text-red-400">✕</button>
+              )}
             </div>
-          </div>
 
-          {/* EVM Wallet */}
-          <div className="space-y-2">
-            <label className="text-sm text-gray-400 flex items-center gap-2">
+            {/* EVM Status */}
+            <div className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full ${isEvmConnected ? 'bg-green-500' : 'bg-gray-500'}`}></span>
-              EVM Wallet (MetaMask) {isEvmConnected ? '(Connected)' : ''}
-            </label>
-            <div className="flex items-center gap-3">
               {isEvmConnected && evmAddress ? (
-                <>
-                  <div className="flex-1 bg-zinc-800 rounded-lg p-3">
-                    <p className="text-sm font-mono text-green-400">
-                      {evmAddress.slice(0, 8)}...{evmAddress.slice(-8)}
-                    </p>
-                    {walletClientLoading && (
-                      <p className="text-xs text-yellow-400 mt-1">Initializing...</p>
-                    )}
-                  </div>
-                  <button
-                    onClick={handleDisconnectEVM}
-                    type="button"
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm cursor-pointer transition-colors"
-                  >
-                    Disconnect
-                  </button>
-                </>
+                <span className="text-sm font-mono text-green-400">
+                  EVM: {evmAddress.slice(0, 4)}...{evmAddress.slice(-4)}
+                </span>
               ) : (
                 <button
                   onClick={handleConnectEVM}
-                  type="button"
-                  className="flex-1 px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold cursor-pointer transition-colors"
+                  className="text-sm px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
                 >
-                  Connect EVM (MetaMask)
+                  Connect EVM
                 </button>
+              )}
+              {isEvmConnected && (
+                <button onClick={handleDisconnectEVM} className="text-xs text-gray-500 hover:text-red-400">✕</button>
               )}
             </div>
           </div>
+
+          {/* SilentSwap Status */}
+          <div className="flex items-center gap-2">
+            {isBothConnected && isSilentSwapLoading && (
+              <span className="text-xs text-blue-400 flex items-center gap-1">
+                <span className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></span>
+                Initializing...
+              </span>
+            )}
+            {isBothConnected && isSilentSwapReady && (
+              <span className="text-xs text-green-400">✓ SilentSwap Ready</span>
+            )}
+            {!isBothConnected && (
+              <span className="text-xs text-yellow-400">⚠️ Both wallets required for payments</span>
+            )}
+          </div>
         </div>
+      </div>
 
-        {/* Connection Status Messages */}
-        {!isBothConnected && (
-          <div className="mt-4 p-4 bg-yellow-500/10 border border-yellow-500/50 rounded-lg">
-            <p className="text-sm text-yellow-400 font-medium mb-1">⚠️ Both wallets required</p>
-            <p className="text-xs text-yellow-300/80">
-              SilentSwap needs both Solana and EVM wallets connected to facilitate private transfers.
-              The EVM wallet is used for signing facilitator operations.
-            </p>
-          </div>
+      {/* Tab Navigation */}
+      <div className="border-b border-zinc-700">
+        <nav className="flex gap-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-3 text-sm font-medium transition-all ${
+                activeTab === tab.id
+                  ? 'text-white border-b-2 border-purple-500 bg-zinc-800/50'
+                  : 'text-gray-400 hover:text-white hover:bg-zinc-800/30'
+              }`}
+            >
+              <span className="mr-2">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      <div className="min-h-[400px]">
+        {activeTab === 'recipients' && (
+          <RecipientsPage />
         )}
-
-        {isBothConnected && isSilentSwapLoading && (
-          <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/50 rounded-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
-              <p className="text-sm text-blue-400">Initializing SilentSwap connection...</p>
-            </div>
-          </div>
+        
+        {activeTab === 'payroll' && (
+          <>
+            {isBothConnected ? (
+              <PayrollForm />
+            ) : (
+              <div className="bg-zinc-900 rounded-xl p-8 border border-zinc-800 text-center">
+                <h3 className="text-xl font-semibold mb-4">Connect Wallets to Execute Payroll</h3>
+                <p className="text-gray-400 mb-6">
+                  SilentSwap requires both Solana and EVM wallets connected to execute private payments on Mainnet.
+                </p>
+                <div className="flex justify-center gap-4">
+                  {!solanaConnected && (
+                    <button
+                      onClick={handleConnectSolana}
+                      className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
+                    >
+                      Connect Solana
+                    </button>
+                  )}
+                  {!isEvmConnected && (
+                    <button
+                      onClick={handleConnectEVM}
+                      className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
+                    >
+                      Connect EVM
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </>
         )}
-
-        {isBothConnected && isSilentSwapReady && !isSilentSwapLoading && (
-          <div className="mt-4 p-4 bg-green-500/10 border border-green-500/50 rounded-lg">
-            <p className="text-sm text-green-400">✓ SilentSwap ready - You can now make private payouts</p>
-          </div>
-        )}
-
-        {isBothConnected && silentSwapError && (
-          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
-            <p className="text-sm text-red-400 font-medium">SilentSwap Error</p>
-            <p className="text-xs text-red-300/80 mt-1">{silentSwapError}</p>
-          </div>
+        
+        {activeTab === 'history' && (
+          <PayrollHistory />
         )}
       </div>
 
-      {/* Payroll Form and History - only show when both wallets connected */}
-      {isBothConnected && (
-        <>
-          <PayrollForm />
-          <PayrollHistory />
-        </>
-      )}
-
-      {/* Instructions when not connected */}
-      {!isBothConnected && (
-        <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
-          <h3 className="text-lg font-semibold mb-4">How to use SilentSwap Payroll</h3>
-          <ol className="space-y-3 text-gray-400 text-sm">
-            <li className="flex gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">1</span>
-              <span>Install <a href="https://phantom.app" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Phantom</a> for Solana and <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:underline">MetaMask</a> for EVM</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">2</span>
-              <span>Connect your Solana wallet (Phantom)</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">3</span>
-              <span>Connect your EVM wallet (MetaMask)</span>
-            </li>
-            <li className="flex gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">4</span>
-              <span>Add recipients and amounts, then execute private payouts</span>
-            </li>
-          </ol>
-          <div className="mt-4 p-3 bg-zinc-800 rounded-lg">
-            <p className="text-xs text-gray-500">
-              💡 <strong>Privacy:</strong> SilentSwap routes payments through ephemeral facilitator accounts, 
-              breaking the on-chain link between sender and recipient.
-            </p>
-          </div>
-        </div>
-      )}
+      {/* Network Info Footer */}
+      <div className="flex justify-center gap-4 text-xs text-gray-500">
+        <span className="flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+          Recipients: Solana Devnet (free)
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+          Payments: Solana Mainnet (SilentSwap)
+        </span>
+      </div>
     </div>
   );
 }

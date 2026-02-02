@@ -4,19 +4,20 @@ import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { useWalletClient, useAccount } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useUserAddress } from "@/hooks/useUserAddress";
-import { RecipientInput } from "./RecipientInput";
 import { isValidSolanaAddress } from "@/utils/solana";
 import { useSilentSwapContext } from "@/app/providers";
+import { usePayrollProgram, RecipientWithKey } from "@/hooks/usePayrollProgram";
 
 // Import useSilentSwap - uses stubs if provider not available
 import { useSilentSwap, useBalancesContext, useAssetsContext, useSwap } from "@silentswap/react";
 import { isSolanaAsset } from "@silentswap/sdk";
 
-export interface Recipient {
+export interface PayoutRecipient {
   id: string;
-  address: string;
+  walletAddress: string;
+  alias: string;
   amount: string;
-  asset: string;
+  selected: boolean;
 }
 
 // Standard Solana Mainnet Genesis Hash (Expected by SilentSwap SDK)
@@ -25,16 +26,17 @@ const SOLANA_CHAIN_ID = "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
 // Native SOL: solana:<chainId>/slip44:501
 const CAIP19_NATIVE_SOL = `solana:${SOLANA_CHAIN_ID}/slip44:501`;
 
-// USDC SPL Token on Solana: solana:<chainId>/token:<tokenMintAddress>
-const USDC_MINT_ADDRESS = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
-const CAIP19_USDC_SOL = `solana:${SOLANA_CHAIN_ID}/token:${USDC_MINT_ADDRESS}`;
-
 export function PayrollForm() {
   const { solAddress, evmAddress, isBothConnected } = useUserAddress();
   const { data: walletClient, isLoading: walletClientLoading } = useWalletClient();
   const { isConnected: isEvmConnected } = useAccount();
   const { connected: isSolanaConnected, publicKey } = useWallet();
   const { isReady: isSilentSwapReady, isLoading: isSilentSwapLoading, error: silentSwapError } = useSilentSwapContext();
+  
+  // Load recipients from Devnet program
+  const { getRecipients, getEmployer } = usePayrollProgram();
+  const [devnetRecipients, setDevnetRecipients] = useState<RecipientWithKey[]>([]);
+  const [loadingRecipients, setLoadingRecipients] = useState(false);
   
   // Use SilentSwap hook
   const silentSwap = useSilentSwap();
@@ -59,12 +61,44 @@ export function PayrollForm() {
     authLoading,
   } = silentSwap || {};
 
-  const [recipients, setRecipients] = useState<Recipient[]>([
-    { id: "1", address: "", amount: "0.1", asset: "SOL" },
-  ]);
-  const [sourceAsset, setSourceAsset] = useState("SOL");
+  // Selected recipients and their amounts
+  const [payoutRecipients, setPayoutRecipients] = useState<PayoutRecipient[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  // Load recipients from Devnet on mount
+  useEffect(() => {
+    const loadRecipients = async () => {
+      if (!publicKey) return;
+      
+      setLoadingRecipients(true);
+      try {
+        const employer = await getEmployer();
+        if (employer) {
+          const recs = await getRecipients();
+          const activeRecs = recs.filter(r => r.account.isActive);
+          setDevnetRecipients(activeRecs);
+          
+          // Initialize payout recipients from devnet data
+          setPayoutRecipients(
+            activeRecs.map((r, index) => ({
+              id: r.publicKey.toString(),
+              walletAddress: r.account.wallet.toString(),
+              alias: r.account.name,
+              amount: '',
+              selected: false,
+            }))
+          );
+        }
+      } catch (error) {
+        console.error('Failed to load recipients:', error);
+      } finally {
+        setLoadingRecipients(false);
+      }
+    };
+    
+    loadRecipients();
+  }, [publicKey, getEmployer, getRecipients]);
 
   // Get balances to see available assets
   const { balances, refetchChains, errors: balanceErrors, loading: balancesLoading } = useBalancesContext();
@@ -74,14 +108,14 @@ export function PayrollForm() {
   // Sync global token state for Solana payouts
   useEffect(() => {
     const registryAssetsArray = Object.values(registryAssets);
-    if (isSilentSwapReady && sourceAsset.includes('solana') && registryAssetsArray.length > 0) {
-      const asset = registryAssetsArray.find(a => a.caip19 === sourceAsset);
+    if (isSilentSwapReady && registryAssetsArray.length > 0) {
+      const asset = registryAssetsArray.find(a => a.caip19 === CAIP19_NATIVE_SOL);
       if (asset) {
-        console.log(`[PayrollForm] Syncing global tokenIn to: ${sourceAsset}`);
+        console.log(`[PayrollForm] Syncing global tokenIn to SOL`);
         setTokenIn(asset);
       }
     }
-  }, [sourceAsset, isSilentSwapReady, registryAssets, setTokenIn]);
+  }, [isSilentSwapReady, registryAssets, setTokenIn]);
 
   // Force refetch Solana if it's missing
   const hasAttemptedRefetch = useRef(false);
@@ -157,57 +191,31 @@ export function PayrollForm() {
       isSilentSwapReady, isSilentSwapLoading, silentSwapError, executeSwap, 
       silentSwapWallet, walletLoading, balances]);
 
-  const addRecipient = useCallback(() => {
-    if (recipients.length >= 5) return;
-    setRecipients([
-      ...recipients,
-      { id: Date.now().toString(), address: "", amount: "", asset: "SOL" },
-    ]);
-  }, [recipients]);
+  // Toggle recipient selection
+  const toggleRecipient = useCallback((id: string) => {
+    setPayoutRecipients(prev => 
+      prev.map(r => r.id === id ? { ...r, selected: !r.selected } : r)
+    );
+  }, []);
 
-  const removeRecipient = useCallback(
-    (id: string) => {
-      setRecipients(recipients.filter((r) => r.id !== id));
-    },
-    [recipients]
-  );
+  // Update recipient amount
+  const updateRecipientAmount = useCallback((id: string, amount: string) => {
+    setPayoutRecipients(prev => 
+      prev.map(r => r.id === id ? { ...r, amount } : r)
+    );
+  }, []);
 
-  const updateRecipient = useCallback(
-    (id: string, field: keyof Recipient, value: string) => {
-      setRecipients(
-        recipients.map((r) => (r.id === id ? { ...r, [field]: value } : r))
-      );
-    },
-    [recipients]
-  );
-
-  // Get CAIP-19 identifier for an asset
-  // Get CAIP-19 identifier for an asset
-  const getAssetCaip19 = useCallback((asset: string): string => {
+  // Get CAIP-19 identifier for SOL (only asset we support now)
+  const getAssetCaip19 = useCallback((): string => {
     const availableBalancesIds = Object.keys(balances);
     const registryIds = Object.keys(registryAssets);
     const allKnownIds = [...new Set([...availableBalancesIds, ...registryIds])];
     
-    if (asset === "SOL") {
-      // First try to find native SOL in available assets
-      const found = allKnownIds.find(id => id.includes('slip44:501'));
-      if (found) return found;
-      // Fallback to standard CAIP-19
-      return CAIP19_NATIVE_SOL;
-    } else if (asset === USDC_MINT_ADDRESS || asset === "USDC") {
-      // Try to find USDC in available assets
-      const found = allKnownIds.find(id => id.includes(USDC_MINT_ADDRESS));
-      if (found) return found;
-      // Fallback
-      return CAIP19_USDC_SOL;
-    }
-    
-    // For custom SPL tokens, try to find by mint address
-    const foundCustom = allKnownIds.find(id => id.includes(asset));
-    if (foundCustom) return foundCustom;
-    
-    // Default format
-    return `solana:${SOLANA_CHAIN_ID}/token:${asset}`;
+    // Find native SOL in available assets
+    const found = allKnownIds.find(id => id.includes('slip44:501'));
+    if (found) return found;
+    // Fallback to standard CAIP-19
+    return CAIP19_NATIVE_SOL;
   }, [balances, registryAssets]);
 
   const handleBulkPayout = async () => {
@@ -254,25 +262,13 @@ export function PayrollForm() {
       return;
     }
 
-    // Validate recipients
-    const validRecipients = recipients.filter((r) => {
-      const hasAddress = r.address.trim().length > 0;
-      const hasAmount = r.amount.trim().length > 0 && parseFloat(r.amount) > 0;
-      const isValidAddress = isValidSolanaAddress(r.address.trim());
-      return hasAddress && hasAmount && isValidAddress;
+    // Validate recipients - get selected ones with valid amounts
+    const validRecipients = payoutRecipients.filter((r) => {
+      return r.selected && r.amount.trim().length > 0 && parseFloat(r.amount) > 0;
     });
 
     if (validRecipients.length === 0) {
-      alert("Please add at least one valid recipient with a valid Solana address and amount greater than 0.");
-      return;
-    }
-
-    // Check for invalid addresses
-    const invalidRecipients = recipients.filter(
-      (r) => r.address.trim() && !isValidSolanaAddress(r.address.trim())
-    );
-    if (invalidRecipients.length > 0) {
-      alert("Some recipient addresses are invalid. Please check and correct them.");
+      alert("Please select at least one recipient and enter an amount greater than 0.");
       return;
     }
 
@@ -285,8 +281,6 @@ export function PayrollForm() {
       hasWalletClient: !!walletClient,
       isSilentSwapReady,
       recipients: validRecipients.length,
-      sourceAsset,
-      // CRITICAL DIAGNOSTICS FOR WALLET ISSUE
       hasSilentSwapWallet: !!silentSwapWallet,
       walletLoading,
       hasAuth: !!auth,
@@ -298,36 +292,34 @@ export function PayrollForm() {
       
       for (let i = 0; i < validRecipients.length; i++) {
         const recipient = validRecipients[i];
-        setStatusMessage(`Processing payout ${i + 1} of ${validRecipients.length}...`);
+        setStatusMessage(`Processing payout ${i + 1} of ${validRecipients.length} to ${recipient.alias}...`);
         
         try {
-          // Get CAIP-19 identifiers
-          const sourceAssetCaip19 = getAssetCaip19(sourceAsset);
-          const destAssetCaip19 = getAssetCaip19(recipient.asset);
+          // Get CAIP-19 identifier for SOL
+          const solAssetCaip19 = getAssetCaip19();
 
-          console.log(`Executing swap for recipient ${i + 1}:`, {
-            sourceAsset: sourceAssetCaip19,
+          console.log(`Executing swap for ${recipient.alias}:`, {
+            sourceAsset: solAssetCaip19,
             sourceAmount: recipient.amount,
-            destAsset: destAssetCaip19,
-            recipientAddress: recipient.address,
+            destAsset: solAssetCaip19,
+            recipientAddress: recipient.walletAddress,
             senderAddress: solAddress,
           });
 
           // Execute the swap using SilentSwap
-          // Note: solanaAddress is passed for SDK compatibility even though not in type definition
           const result = await executeSwap({
-            sourceAsset: sourceAssetCaip19,
+            sourceAsset: solAssetCaip19,
             sourceAmount: recipient.amount,
             destinations: [
               {
-                asset: destAssetCaip19,
-                contact: `caip10:solana:*:${recipient.address}`, // Recipient in CAIP-10 format
-                amount: "", // Empty for full amount
+                asset: solAssetCaip19,
+                contact: `caip10:solana:*:${recipient.walletAddress}`,
+                amount: "",
               },
             ],
-            splits: [1], // 100% to single recipient
-            senderContactId: `caip10:solana:*:${solAddress}`, // Sender in CAIP-10 format
-            solanaAddress: solAddress, // Added to ensure SDK finds it
+            splits: [1],
+            senderContactId: `caip10:solana:*:${solAddress}`,
+            solanaAddress: solAddress,
             integratorId: process.env.NEXT_PUBLIC_INTEGRATOR_ID || undefined,
           } as any);
 
@@ -380,8 +372,8 @@ export function PayrollForm() {
     }
   };
 
-  const totalAmount = recipients.reduce(
-    (sum, r) => sum + (parseFloat(r.amount) || 0),
+  const totalAmount = payoutRecipients.reduce(
+    (sum, r) => sum + (r.selected ? (parseFloat(r.amount) || 0) : 0),
     0
   );
 
@@ -464,53 +456,79 @@ export function PayrollForm() {
         </div>
       )}
 
-      {/* Source Asset Selection */}
-      <div className="mb-6 space-y-2">
-        <label className="text-sm text-gray-400">Source Asset</label>
-        <select
-          value={sourceAsset}
-          onChange={(e) => setSourceAsset(e.target.value)}
-          className="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:border-yellow-500 focus:outline-none"
-          disabled={isSwapping || isProcessing}
-        >
-          <option value="SOL">SOL (Native Solana)</option>
-          <option value={USDC_MINT_ADDRESS}>USDC (SPL Token)</option>
-        </select>
-      </div>
-
-      {/* Recipients List */}
+      {/* Recipients Selection */}
       <div className="space-y-4 mb-6">
         <div className="flex items-center justify-between">
-          <label className="text-sm text-gray-400">Recipients (max 5)</label>
-          <button
-            onClick={addRecipient}
-            disabled={recipients.length >= 5 || isSwapping || isProcessing}
-            className="text-sm px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            + Add Recipient
-          </button>
+          <label className="text-sm text-gray-400">Select Recipients</label>
+          <div className="text-xs text-blue-400">
+            {devnetRecipients.length} saved on Devnet
+          </div>
         </div>
 
-        {recipients.map((recipient, index) => (
-          <RecipientInput
-            key={recipient.id}
-            recipient={recipient}
-            index={index}
-            onUpdate={(field, value) => updateRecipient(recipient.id, field, value)}
-            onRemove={() => removeRecipient(recipient.id)}
-            canRemove={recipients.length > 1}
-            disabled={isSwapping || isProcessing}
-          />
-        ))}
+        {loadingRecipients ? (
+          <div className="py-4 text-center text-gray-500 text-sm">Loading recipients from Devnet...</div>
+        ) : devnetRecipients.length === 0 ? (
+          <div className="p-4 bg-zinc-800/50 border border-dashed border-zinc-700 rounded-lg text-center">
+            <p className="text-sm text-gray-400 mb-2">No active recipients found on Devnet.</p>
+            <p className="text-xs text-gray-500">Add recipients in the &quot;Recipients&quot; tab first.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {payoutRecipients.map((recipient) => (
+              <div 
+                key={recipient.id}
+                className={`p-4 rounded-lg border transition-all ${
+                  recipient.selected 
+                    ? 'bg-purple-900/20 border-purple-500/50' 
+                    : 'bg-zinc-800/50 border-zinc-700 hover:border-zinc-600'
+                }`}
+              >
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={recipient.selected}
+                      onChange={() => toggleRecipient(recipient.id)}
+                      disabled={isSwapping || isProcessing}
+                      className="w-5 h-5 rounded border-zinc-700 text-purple-600 focus:ring-purple-500 bg-zinc-900"
+                    />
+                    <div>
+                      <div className="text-sm font-semibold text-white">{recipient.alias}</div>
+                      <div className="text-xs font-mono text-gray-500">
+                        {recipient.walletAddress.slice(0, 8)}...{recipient.walletAddress.slice(-8)}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {recipient.selected && (
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={recipient.amount}
+                        onChange={(e) => updateRecipientAmount(recipient.id, e.target.value)}
+                        placeholder="Amount (SOL)"
+                        disabled={isSwapping || isProcessing}
+                        className="w-32 p-2 bg-zinc-900 border border-zinc-700 rounded text-sm text-white focus:border-purple-500 focus:outline-none"
+                      />
+                      <span className="text-xs text-gray-400 font-medium">SOL</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Total Amount Display */}
       {totalAmount > 0 && (
         <div className="mb-6 p-4 bg-zinc-800 rounded-lg">
           <div className="flex justify-between items-center">
-            <span className="text-gray-400">Total Amount:</span>
+            <span className="text-gray-400">Total Payout:</span>
             <span className="text-xl font-bold">
-              {totalAmount.toFixed(sourceAsset === "SOL" ? 4 : 2)} {sourceAsset === "SOL" ? "SOL" : "USDC"}
+              {totalAmount.toFixed(4)} SOL
             </span>
           </div>
           {(serviceFeeUsd || bridgeFeeIngressUsd || bridgeFeeEgressUsd) && (
@@ -575,7 +593,7 @@ export function PayrollForm() {
           isProcessing ||
           egressEstimatesLoading ||
           totalAmount <= 0 ||
-          recipients.filter((r) => r.address && r.amount && parseFloat(r.amount) > 0).length === 0
+          payoutRecipients.filter((r) => r.selected && r.amount && parseFloat(r.amount) > 0).length === 0
         }
         className="w-full py-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >
@@ -585,7 +603,7 @@ export function PayrollForm() {
           ? "Waiting for SilentSwap..."
           : isSwapping || isProcessing
           ? "Processing Private Payouts..."
-          : `Execute Private Payout (${recipients.filter((r) => r.address && r.amount && parseFloat(r.amount) > 0).length} recipient${recipients.filter((r) => r.address && r.amount && parseFloat(r.amount) > 0).length !== 1 ? 's' : ''})`
+          : `Execute Private Payout (${payoutRecipients.filter((r) => r.selected && r.amount && parseFloat(r.amount) > 0).length} recipient${payoutRecipients.filter((r) => r.selected && r.amount && parseFloat(r.amount) > 0).length !== 1 ? 's' : ''})`
         }
       </button>
 
