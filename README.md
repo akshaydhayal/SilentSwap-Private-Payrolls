@@ -1,5 +1,7 @@
 # SilentSwap Payroll - Private Payouts on Solana
 
+Live Project Link: [https://silent-swap-private-payrolls.vercel.app/](https://silent-swap-private-payrolls.vercel.app//)
+
 A privacy-focused dApp for automated payroll and bulk payouts on Solana. Built for the **Privacy Hackathon 2026**, this platform leverages the **SilentSwap Protocol** to ensure that employee payment histories remain private and unlinked on-chain.
 
 ## 🚀 Key Features
