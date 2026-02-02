@@ -2,35 +2,6 @@
 
 A privacy-focused dApp for automated payroll and bulk payouts on Solana. Built for the **Privacy Hackathon 2026**, this platform leverages the **SilentSwap Protocol** to ensure that employee payment histories remain private and unlinked on-chain.
 
----
-
-## 📺 Project Demo
-
-### 🎥 Presentation Video
-[![Presentation Video](https://img.shields.io/badge/Watch-Presentation-red?style=for-the-badge&logo=youtube)]([Link to your YouTube/Loom video here])
-> *[Replace with your presentation video link]*
-
-### 📸 Product Screenshots
-
-<div align="center">
-  <p><b>1. Privacy-First Recipients Management</b></p>
-  <img src="https://via.placeholder.com/800x450.png?text=Dashboard+Recipients+Tab+Screenshot" alt="Recipients Management" width="600">
-  <br>
-  <p><i>Manage employees with anonymous aliases and on-chain status tracking on Devnet.</i></p>
-  
-  <p><b>2. Bulk Private Payouts</b></p>
-  <img src="https://via.placeholder.com/800x450.png?text=Execute+Payroll+Form+Screenshot" alt="Execute Payroll" width="600">
-  <br>
-  <p><i>Select multiple recipients and execute private SOL payouts in a single batch.</i></p>
-
-  <p><b>3. Real-time Payout Feedback</b></p>
-  <img src="https://via.placeholder.com/800x450.png?text=Success+Toast+Notification+Screenshot" alt="Success Notification" width="600">
-  <br>
-  <p><i>Immediate confirmation with clickable Solana Explorer links for destination transactions.</i></p>
-</div>
-
----
-
 ## 🚀 Key Features
 
 - **Anonymous Recipient Aliases**: Recipient names are never stored on-chain. Instead, they use auto-generated aliases (e.g., `Recipient-1`) to prevent public identity leaks.
@@ -40,6 +11,30 @@ A privacy-focused dApp for automated payroll and bulk payouts on Solana. Built f
 - **Real-Time Feedback**: Integrated `react-hot-toast` notifications providing instant success messages and links to the Solana Explorer.
 
 ---
+
+## 📺 Project Demo
+
+### 🎥 Presentation Video
+[![https://drive.google.com/file/d/1HeRtRUEXaXgPFJMK5cFlxlJdImZ2-x1L/view?usp=drive_link](https://drive.google.com/file/d/1HeRtRUEXaXgPFJMK5cFlxlJdImZ2-x1L/view?usp=drive_link)]([Link to Presentation Video])
+> 
+
+### 📸 Product Screenshots
+
+<div align="center">
+  <p><b>1. Privacy-First Recipients Management</b></p>
+  <img src="https://github.com/akshaydhayal/SilentSwap-Private-Payrolls/blob/main/SilentSwap-Payroll-Private-Payouts.png" alt="Recipients Management" width="600">
+  <br>
+  <p><i>Manage employees with anonymous aliases and on-chain status tracking on Devnet.</i></p>
+  
+  <p><b>2. Bulk Private Payouts</b></p>
+  <img src="https://github.com/akshaydhayal/SilentSwap-Private-Payrolls/blob/main/SilentSwap-Payroll-Private-Payouts%20(1).png" alt="Execute Payroll" width="600">
+  <br>
+  <p><i>Select multiple recipients and execute private SOL payouts in a single batch.</i></p>
+
+</div>
+
+---
+
 
 ## 🏗️ Hybrid Architecture
 
