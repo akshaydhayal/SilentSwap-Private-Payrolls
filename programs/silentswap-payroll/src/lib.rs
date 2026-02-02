@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("DowzTqkaMpVVeduM94rWgSereqprcZ5QfgrSaMqUxWQK");
+declare_id!("9ideARSjLdYXZut2MqH4zwDXn4yZhFyopzjQHJKVFudn");
 
 /// Maximum length for string fields
 pub const MAX_NAME_LENGTH: usize = 64;

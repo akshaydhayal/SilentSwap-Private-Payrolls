@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/silentswap_payroll.json`.
  */
 export type SilentswapPayroll = {
-  "address": "DowzTqkaMpVVeduM94rWgSereqprcZ5QfgrSaMqUxWQK",
+  "address": "9ideARSjLdYXZut2MqH4zwDXn4yZhFyopzjQHJKVFudn",
   "metadata": {
     "name": "silentswapPayroll",
     "version": "0.1.0",
@@ -247,10 +247,6 @@ export type SilentswapPayroll = {
       "args": [
         {
           "name": "silentswapOrderId",
-          "type": "string"
-        },
-        {
-          "name": "transactionHash",
           "type": "string"
         }
       ]
@@ -766,11 +762,6 @@ export type SilentswapPayroll = {
       "code": 6003,
       "name": "invalidPaymentStatus",
       "msg": "Invalid payment status for this operation"
-    },
-    {
-      "code": 6004,
-      "name": "txHashTooLong",
-      "msg": "Transaction hash exceeds maximum length"
     }
   ],
   "types": [
@@ -865,13 +856,6 @@ export type SilentswapPayroll = {
             "name": "silentswapOrderId",
             "docs": [
               "SilentSwap order ID (for reference)"
-            ],
-            "type": "string"
-          },
-          {
-            "name": "transactionHash",
-            "docs": [
-              "Solana transaction hash (for destination tx)"
             ],
             "type": "string"
           },

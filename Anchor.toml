@@ -7,7 +7,7 @@ skip-lint = false
 
 
 [programs.devnet]
-silentswap_payroll = "DowzTqkaMpVVeduM94rWgSereqprcZ5QfgrSaMqUxWQK"
+silentswap_payroll = "9ideARSjLdYXZut2MqH4zwDXn4yZhFyopzjQHJKVFudn"
 
 [registry]
 url = "https://api.apr.dev"

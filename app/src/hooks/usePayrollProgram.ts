@@ -4,7 +4,7 @@ import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { useMemo, useState, useCallback, useEffect } from 'react';
 
 // Program ID deployed on Devnet
-export const PROGRAM_ID = new PublicKey('DowzTqkaMpVVeduM94rWgSereqprcZ5QfgrSaMqUxWQK');
+export const PROGRAM_ID = new PublicKey('9ideARSjLdYXZut2MqH4zwDXn4yZhFyopzjQHJKVFudn');
 
 // Devnet connection for program interactions
 const DEVNET_RPC_URL = clusterApiUrl('devnet');
