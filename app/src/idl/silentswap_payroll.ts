@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/silentswap_payroll.json`.
  */
 export type SilentswapPayroll = {
-  "address": "4GrNpDUsk5k7NfywagMcfypX9MGAHD6BAJ48PhZtMeUK",
+  "address": "3QGaDwAq68PnJZvVDkM32ejP8e3GNRCLNqm6vRYhRDFW",
   "metadata": {
     "name": "silentswapPayroll",
     "version": "0.1.0",
@@ -111,6 +111,14 @@ export type SilentswapPayroll = {
         {
           "name": "role",
           "type": "string"
+        },
+        {
+          "name": "departmentId",
+          "type": "u8"
+        },
+        {
+          "name": "category",
+          "type": "u8"
         }
       ]
     },
@@ -194,6 +202,7 @@ export type SilentswapPayroll = {
         },
         {
           "name": "recipient",
+          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -676,6 +685,18 @@ export type SilentswapPayroll = {
           "type": {
             "option": "string"
           }
+        },
+        {
+          "name": "departmentId",
+          "type": {
+            "option": "u8"
+          }
+        },
+        {
+          "name": "category",
+          "type": {
+            "option": "u8"
+          }
         }
       ]
     }
@@ -901,7 +922,7 @@ export type SilentswapPayroll = {
           {
             "name": "name",
             "docs": [
-              "Display name"
+              "Display name (anonymous alias)"
             ],
             "type": "string"
           },
@@ -925,6 +946,34 @@ export type SilentswapPayroll = {
               "Account creation timestamp"
             ],
             "type": "i64"
+          },
+          {
+            "name": "lastPaymentTimestamp",
+            "docs": [
+              "Timestamp of the last payment initiation"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "totalPayments",
+            "docs": [
+              "Total number of payments created for this recipient"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "departmentId",
+            "docs": [
+              "Department ID (0: Eng, 1: Mkt, 2: Sales, 3: Ops, 4: HR)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "category",
+            "docs": [
+              "Category ID (0: Full-time, 1: Part-time, 2: Contractor)"
+            ],
+            "type": "u8"
           },
           {
             "name": "bump",
