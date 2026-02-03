@@ -16,29 +16,23 @@ A privacy-focused dApp for automated payroll and bulk payouts on Solana. Built f
 
 ## 📺 Project Demo
 
-### 🎥 Presentation Video
-[![https://drive.google.com/file/d/1HeRtRUEXaXgPFJMK5cFlxlJdImZ2-x1L/view?usp=drive_link](https://drive.google.com/file/d/1HeRtRUEXaXgPFJMK5cFlxlJdImZ2-x1L/view?usp=drive_link)]([Link to Presentation Video])
+### 🎥 Presentation Video :
+[https://drive.google.com/file/d/1HeRtRUEXaXgPFJMK5cFlxlJdImZ2-x1L/view?usp=drive_link](https://drive.google.com/file/d/1HeRtRUEXaXgPFJMK5cFlxlJdImZ2-x1L/view?usp=drive_link)
+
 > 
 
 ### 📸 Product Screenshots
 
 <div align="center">
   <p><b>1. Privacy-First Recipients Management</b></p>
-  <img src="https://github.com/akshaydhayal/MagicBlock-Shield-Poker/blob/main/shield-poker-vercel-app.png" alt="Recipients Management" width="600">
+  <img src="https://github.com/akshaydhayal/SilentSwap-Private-Payrolls/blob/main/SilentSwap-Payroll-Private-Payouts.png" alt="Recipients Management" width="600">
   <br>
   <p><i>Manage employees with anonymous aliases and on-chain status tracking on Devnet.</i></p>
   
   <p><b>2. Bulk Private Payouts</b></p>
-  <img src="https://github.com/akshaydhayal/MagicBlock-Shield-Poker/blob/main/localhost-3000-game-4.png" alt="Execute Payroll" width="600">
+  <img src="https://github.com/akshaydhayal/SilentSwap-Private-Payrolls/blob/main/SilentSwap-Payroll-Private-Payouts%20(1).png" alt="Execute Payroll" width="600">
   <br>
   <p><i>Select multiple recipients and execute private SOL payouts in a single batch.</i></p>
-
-  <p><b>2. Bulk Private Payouts</b></p>
-  <img src="https://github.com/akshaydhayal/MagicBlock-Shield-Poker/blob/main/localhost-3000-game-3.png" alt="Execute Payroll" width="600">
-  <br>
-  <p><i>Select multiple recipients and execute private SOL payouts in a single batch.</i></p>
-
-
 
 </div>
 
